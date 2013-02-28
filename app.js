@@ -1,16 +1,11 @@
-// @todo replace with proper configuration
-var config = {
-    'port'     : 21,
-    'listen'   : '192.168.221.148',
-    'logLevel' : 'debug',
-    'motd'     : 'NodeFTPD 0.1a Server (NodeFTPD)'
-}
+var os = require('os');
 
 // Load dependencies
-var app = require('./lib/ftpd')(config)
-  , fs  = require('fs');
+var config = require('./lib/config')()
+  , app    = require('./lib/ftpd')(config)
+  , fs     = require('fs');
 
-// Temp
+// Load command modules
 fs.readdir('./commands', function(err, files) {
     for (var i = 0; i < files.length; i++) {
         require('./commands/' + files[i])(app);
