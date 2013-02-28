@@ -10,7 +10,7 @@ exports = module.exports = (function(app) {
                 if (secondChar != '') {
                     output.write(500, 'Unrecognized TYPE command.');
                 } else {
-                    output.write(500, 'Switching to ASCII mode.');
+                    output.write(200, 'Switching to ASCII mode.');
                 }
             } else if (typeChar == 'I') {
                 output.write(200, 'Switching to Binary mode.');
