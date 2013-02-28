@@ -1,0 +1,33 @@
+{
+    "name": "nodeftpd",
+    "preferGlobal": true,
+    "version": "0.0.1",
+    "author": "Brandon Wamboldt <brandon.wamboldt@gmail.com>",
+    "description": "Flexible, light-weight FTP server",
+    "contributors": [
+        {
+            "name": "Brandon Wamboldt",
+            "email": "brandon.wamboldt@gmail.com"
+        }
+    ],
+    "bin": {
+        "nodeftpd": "./bin/nodeftpd"
+    },
+    "main": "./lib/http-server",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/brandonwamboldt/nodeftpd.git"
+    },
+    "keywords": [
+        "cli",
+        "ftp",
+        "server"
+    ],
+    "dependencies": {
+        "underscore": "1.4.x"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.8"
+    }
+}
