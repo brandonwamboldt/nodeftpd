@@ -1,8 +1,6 @@
-exports = module.exports = (function(app) {
-    app.server.on('ftp:command_received', function(command, parameters, output, session) {
-        if (command === 'PASS') {
-            session.authenticated = true;
-            output.write(230, 'Authenticated as ' + session.user);
-        } 
-    });
+var command = require('../lib/command');
+
+command.add('PASS', function (parameters, output, session) {
+    session.authenticated = true;
+    output.write(230, 'Authenticated as ' + session.user);
 });

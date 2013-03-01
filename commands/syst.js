@@ -1,9 +1,6 @@
-exports = module.exports = (function(app) {
-    var os = require('os');
+var command = require('../lib/command')
+  , os      = require('os');
 
-    app.server.on('ftp:command_received', function(command, parameters, output, session) {
-        if (command === 'SYST') {
-            output.write(215, os.type() + ' Type: ' + session.type);
-        } 
-    });
+command.add('SYST', function (parameters, output, session) {
+    output.write(215, os.type() + ' Type: ' + session.type);
 });

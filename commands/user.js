@@ -1,8 +1,6 @@
-exports = module.exports = (function(app) {
-    app.server.on('ftp:command_received', function(command, parameters, output, session) {
-        if (command === 'USER') {
-            session.user = parameters;
-            output.write(331, 'Password required to access user account ' + parameters.trim());
-        } 
-    });
+var command = require('../lib/command');
+
+command.add('USER', function(parameters, output, session) {
+    session.user = parameters;
+    output.write(331, 'Password required to access user account ' + parameters.trim());
 });
