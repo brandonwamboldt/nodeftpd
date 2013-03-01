@@ -8,7 +8,9 @@ command.add('CWD', function (cd, output, session) {
         cd = cd.substring(0, cd.length - 1);
     }
 
-    if (cd.substr(0, 1) == '/') {
+    if (cd == '') {
+        session.cwd = '/';
+    } else if (cd.substr(0, 1) == '/') {
         session.cwd = cd;
     } else {
         if (session.cwd == '/') {
