@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+// Load dependencies
+var app = require(__dirname + '/../lib/ftpd')
+  , fs  = require('fs');
+
+app.start();
+
+// Load command modules
+fs.readdir(__dirname + '/../commands', function(err, files) {
+    for (var i = 0; i < files.length; i++) {
+        require(__dirname + '/../commands/' + files[i]);
+    }
+});

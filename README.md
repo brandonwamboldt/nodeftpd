@@ -8,7 +8,9 @@ The project is a Node.js/JavaScript learning project, but I intend on making it 
 Installation
 ------------
 
-This software is in **alpha**. It's **NOT** ready for use in any type of production environment. However, if you want to install it and take a look around, just git clone it, and run `node app.js`. It will auto detect your IP and run on port 21. 
+This software is in **alpha**. It's **NOT** ready for use in any type of production environment. 
+
+However, if you want to install it and take a look around, just `git clone` it, run `npm update` to install dependencies and run `bin/nodeftpd`. It will auto detect your IP and run on port 21. 
 
 Configuration
 -------------
