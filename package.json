@@ -24,7 +24,7 @@
         "server"
     ],
     "dependencies": {
-        "underscore": "1.4.x"
+        "lodash": "1.0.x"
     },
     "license": "MIT",
     "engines": {
