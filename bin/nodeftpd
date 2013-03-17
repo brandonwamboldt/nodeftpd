@@ -1,7 +1,16 @@
 #!/usr/bin/env node
 
-// Load dependencies
-var app = require(__dirname + '/../lib/ftpd');
+global.processType = 'parent'
 
-// Initialize Application
-app.start();
+process.argv.forEach(function (val, index, array) {
+    if (val === '--child') {
+        global.processType = 'child'
+        return false
+    }
+});
+
+if (global.processType === 'parent') {
+    require(__dirname + '/../lib/process_parent').start()
+} else {
+    require(__dirname + '/../lib/process_child')
+}

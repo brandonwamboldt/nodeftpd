@@ -24,7 +24,8 @@
         "server"
     ],
     "dependencies": {
-        "lodash": "1.0.x"
+        "lodash": "1.0.x",
+        "moment": "2.0.x"
     },
     "license": "MIT",
     "engines": {

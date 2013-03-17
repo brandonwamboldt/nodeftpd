@@ -1,7 +1,9 @@
 var command = require('../lib/command')
   , fs      = require('fs');
 
-command.add('CWD', function (cd, output, session) {
+command.add('CWD', cwd, {maxArguments: 1, minArguments: 1});
+
+function cwd(cd, output, session) {
     var oldcwd = session.cwd;
 
     if (cd.substr(cd.length - 1) == '/') {
@@ -27,6 +29,6 @@ command.add('CWD', function (cd, output, session) {
         } else {
             output.write(250, '"' + session.cwd + '" is the new working directory.');
         }
-    
-    }); 
-});
+
+    });
+}

@@ -1,8 +1,11 @@
 var command = require('../lib/command')
-  , fs  = require('fs');
+  , fs      = require('fs')
 
-command.add('CDUP', function (cd, output, session) {
-    session.cwd = fs.realpathSync(session.cwd + '/../');
+command.add('CDUP', cdup, {maxArguments: 0})
 
-    output.write(250, 'CDUP command successful.');
-});
+function cdup(cd, output, session) {
+    fs.realpath(session.cwd + '/../', function(err, resolvedPath) {
+        session.cwd = resolvedPath
+        output.write(250, 'CDUP command successful.')
+    })
+}

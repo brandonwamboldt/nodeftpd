@@ -4,16 +4,18 @@ var command = require('../lib/command')
   , net     = require('net')
   , fs      = require('fs');
 
-command.add('LIST', function (type, output, session) {
+command.add('LIST', list)
+
+function list(type, output, session) {
     // Create a new data channel
     var success = channel.create(session, function (socket, done) {
-        // Read in the files/directories in the user's current working 
+        // Read in the files/directories in the user's current working
         // directory
         fs.readdir(session.cwd, function (err, files) {
             if (files == null) {
                 files = [];
             }
-            
+
             for (var i = 0; i < files.length; i++) {
                 var stat   = fs.statSync(session.cwd + '/' + files[i])
                   , date   = stat.mtime
@@ -50,7 +52,7 @@ command.add('LIST', function (type, output, session) {
 
                 socket.write(mode + ' 1 ' + stat.uid + ' ' + stat.gid + '  ' + stat.size + ' ' + months[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + files[i] + '\n');
             }
-            
+
             output.write(226, 'Directory sent OK.');
 
             done();
@@ -58,8 +60,8 @@ command.add('LIST', function (type, output, session) {
     });
 
     if (!success) {
-        output.write(425, 'Unable to build data connection: Invalid argument'); 
+        output.write(425, 'Unable to build data connection: Invalid argument');
     } else {
         output.write(150, 'Here comes the directory listing.');
     }
-});
+}

@@ -1,5 +1,5 @@
 var command = require('../lib/command')
-  , app     = require('../lib/ftpd')
+  , app     = require('../lib/process_child')
   , config  = require('../lib/config')
   , state   = require('../lib/state');
 
@@ -21,10 +21,10 @@ command.add('PASV', function (type, output, session) {
     // Get the two parts of the port so it can be represented as a byte
     var port1 = Math.floor(port / 256)
       , port2 = port % 256
-      , port  = app.server.address().address.replace(/\./g, ',') + ',' + port1 + ',' + port2;
+      , port  = app.socket.address().address.replace(/\./g, ',') + ',' + port1 + ',' + port2;
 
     // Set the session's passive port
     session.passiveMode.port = (port1 * 256) + port2;
 
     output.write(227, 'Entering Passive Mode (' + port + ')');
-}); 
+});
