@@ -3,7 +3,7 @@ var app     = require('../lib/process_child');
 var config  = require('../lib/config');
 var state   = require('../lib/state');
 
-command.add('PASV', function (type, output, session) {
+command.add('PASV', 'PASV (returns address/port)', function (type, output, session) {
   session.mode = 'passive';
 
   // Generate a passive port

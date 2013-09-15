@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('RMD', function (rmdir, output, session) {
+command.add('RMD', 'RMD <sp> pathname', function (rmdir, output, session) {
   if (rmdir.trim() === '') {
     output.write(501, 'Invalid number of arguments');
   } else {

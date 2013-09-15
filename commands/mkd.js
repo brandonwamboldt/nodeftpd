@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('MKD', function (mkdir, output, session) {
+command.add('MKD', 'MKD <sp> pathname', function (mkdir, output, session) {
   if (mkdir.trim() === '') {
     output.write(501, 'Invalid number of arguments');
   } else {

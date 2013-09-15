@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('CDUP', cdup, {maxArguments: 0});
+command.add('CDUP', 'CDUP (up one directory)', cdup, {maxArguments: 0});
 
 function cdup(cd, output, session) {
   fs.realpath(session.cwd + '/../', function (err, resolvedPath) {

@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('DELE', dele, {maxArguments: 1, minArguments: 1});
+command.add('DELE', 'DELETE <sp> pathname', dele, {maxArguments: 1, minArguments: 1});
 
 function dele(rm, output, session) {
   // Was an absolute or relative path given?

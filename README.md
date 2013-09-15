@@ -40,7 +40,7 @@ Progress
 * ~~CWD - change working directory~~
 * ~~DELE - delete a remote file~~
 * FEAT - list all new FTP features that the server supports (note: fake implementation for testing purposes)
-* HELP - return help on using hte server
+* ~~HELP - return help on using hte server~~
 * ~~LIST - list remote files~~
 * MDTM - return the modification time of a file
 * ~~MKD - make a remote directory~~

@@ -4,7 +4,7 @@ var channel = require('../lib/datachannel');
 var net     = require('net');
 var fs      = require('fs');
 
-command.add('LIST', list);
+command.add('LIST', 'LIST [<sp> pathname]', list);
 
 function list(type, output, session) {
   // Create a new data channel

@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('CWD', cwd, {maxArguments: 1, minArguments: 1});
+command.add('CWD', 'CWD <sp> pathname', cwd, {maxArguments: 1, minArguments: 1});
 
 function cwd(cd, output, session) {
   var oldcwd = session.cwd;

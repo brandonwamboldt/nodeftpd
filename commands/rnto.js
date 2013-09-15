@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('RNTO', rnto, {maxArguments: 1, minArguments: 1});
+command.add('RNTO', 'RNTO <sp> pathname', rnto, {maxArguments: 1, minArguments: 1});
 
 /**
  * Used when renaming a file. After sending an RNFR command to specify the file

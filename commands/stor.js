@@ -2,7 +2,7 @@ var command = require('../lib/command');
 var channel = require('../lib/datachannel');
 var fs      = require('fs');
 
-command.add('STOR', function (path, output, session) {
+command.add('STOR', 'STOR <sp> pathname', function (path, output, session) {
   var success = channel.create(session, function (socket, done) {
     // @todo Write to file as it is received to avoid memory issues
     var buffers = [];

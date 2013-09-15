@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('SIZE', size, {maxArguments: 1, minArguments: 1});
+command.add('SIZE', 'SIZE <sp> pathname', size, {maxArguments: 1, minArguments: 1});
 
 /**
  * Returns the size of the remote file as a decimal number.

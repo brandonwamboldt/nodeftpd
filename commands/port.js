@@ -1,6 +1,6 @@
 var command = require('../lib/command');
 
-command.add('PORT', function (parameters, output, session) {
+command.add('PORT', 'PORT <sp> h1,h2,h3,h4,p1,p2', function (parameters, output, session) {
   // Set the FTP mode to Active
   session.mode = 'active';
 

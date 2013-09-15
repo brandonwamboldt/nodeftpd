@@ -2,7 +2,7 @@ var fs      = require('fs');
 var command = require('../lib/command');
 var channel = require('../lib/datachannel');
 
-command.add('RETR', function (parameters, output, session) {
+command.add('RETR', 'RETR <sp> pathname', function (parameters, output, session) {
   var file = session.cwd + '/' + parameters;
 
   if (!fs.existsSync(file)) {

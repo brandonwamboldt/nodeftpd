@@ -1,7 +1,7 @@
 var command = require('../lib/command');
 var fs      = require('fs');
 
-command.add('RNFR', rnfr, {maxArguments: 1, minArguments: 1});
+command.add('RNFR', 'RNFR <sp> pathname', rnfr, {maxArguments: 1, minArguments: 1});
 
 /**
  * Used when renaming a file. Use this command to specify the file to be

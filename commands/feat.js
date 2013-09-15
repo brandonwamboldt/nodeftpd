@@ -1,6 +1,6 @@
 var command = require('../lib/command');
 
-command.add('FEAT', function (parameters, output, session) {
+command.add('FEAT', 'FEAT (returns feature list)', function (parameters, output, session) {
   output.write(211, '-Features');
   output.write('SIZE');
   output.write('MDTM');
