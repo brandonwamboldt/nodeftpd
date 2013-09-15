@@ -46,7 +46,7 @@ Progress
 * ~~MKD - make a remote directory~~
 * MODE - set transfer mode
 * NLST - name list of remote directory
-* NOOP - do nothing
+* ~~NOOP - do nothing~~
 * PASS - send password (note: fake implemented for testing purposes)
 * ~~PASV - enter passive mode~~
 * ~~PORT - open a data port~~
