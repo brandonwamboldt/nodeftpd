@@ -51,7 +51,7 @@ Progress
 * ~~PASV - enter passive mode~~
 * ~~PORT - open a data port~~
 * ~~PWD - print working directory~~
-* QUIT - terminate the connection
+* ~~QUIT - terminate the connection~~
 * REIN - reinitialize the connection
 * ~~RETR - retrieve a remote file~~
 * ~~RMD - remove a remote directory~~
