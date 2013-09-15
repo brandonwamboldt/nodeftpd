@@ -63,6 +63,6 @@ Progress
 * ~~STOR - store a file on the remote host~~
 * STOU - store a file uniquely
 * STRU - set file transfer structure
-* SYST - return system type
+* ~~SYST - return system type~~
 * ~~TYPE - set the transfer type~~
 * USER - send username (note: fake implemented for testing purposes)
