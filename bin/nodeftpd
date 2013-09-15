@@ -3,14 +3,14 @@
 global.processType = 'parent'
 
 process.argv.forEach(function (val, index, array) {
-    if (val === '--child') {
-        global.processType = 'child'
-        return false
-    }
+  if (val === '--child') {
+    global.processType = 'child';
+    return false;
+  }
 });
 
 if (global.processType === 'parent') {
-    require(__dirname + '/../lib/process_parent').start()
+  require(__dirname + '/../lib/process_parent').start();
 } else {
-    require(__dirname + '/../lib/process_child')
+  require(__dirname + '/../lib/process_child');
 }
