@@ -12,6 +12,8 @@ Installation
 
 This software is in **alpha**. It's **NOT** ready for use in any type of production environment.
 
+The PAM dev package is required. On Ubuntu variants, install with 'sudo apt-get install libpam-dev'. On CentOS variants, install with 'sudo yum install pam-devel'.
+
 However, if you want to install it and take a look around, just `git clone` it, run `npm install` to install dependencies and run `npm start`. It will auto detect your IP and run on port 21.
 
 Configuration
@@ -25,6 +27,11 @@ The configuration file is `/etc/nodeftpd.conf`. It expects a JSON file. Example 
     "listen": "127.0.0.1"
 }
 ```
+
+Authentication Mechanisms
+-------------------------
+
+The system only supports Linux accounts via PAM at the moment. More drivers are coming soon!
 
 FTP Documentation
 -----------------

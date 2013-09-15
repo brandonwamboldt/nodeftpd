@@ -28,7 +28,8 @@
   ],
   "dependencies": {
     "lodash": "1.0.x",
-    "moment": "2.0.x"
+    "moment": "2.0.x",
+    "authenticate-pam": "0.1.x"
   },
   "license": "MIT",
   "engines": {
