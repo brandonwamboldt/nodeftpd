@@ -59,6 +59,7 @@ auth.register('pam', function (username, password, done) {
 
       // Format and return the user data
       var user = {
+        uid: users[username][2],
         username: username,
         password: password,
         chroot: config.get('auth.chroot') === '~' ? users[username][5] : config.get('auth.chroot'),
