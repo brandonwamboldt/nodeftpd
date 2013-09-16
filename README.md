@@ -21,10 +21,22 @@ Configuration
 
 The configuration file is `/etc/nodeftpd.conf`. It expects a JSON file. Example configuration below:
 
-```
+```javascript
 {
-    "port": 21,
-    "listen": "127.0.0.1"
+  // The message of the day shown when users connect
+  "motd": "",
+
+  // The port to listen on
+  "port": 21,
+
+  // Network interface to listen on
+  "listen": "127.0.0.1",
+
+  // The authentication mechanism to use (config, mongo, mysql, pam, postgres, redis)
+  "auth.mechanism": "pam",
+
+  // Chroot directory (~ is the user's home directory, otherwise use an absolute path)
+  "auth.chroot": "~"
 }
 ```
 
@@ -56,7 +68,7 @@ Progress
 * MODE - set transfer mode
 * NLST - name list of remote directory
 * ~~NOOP - do nothing~~
-* PASS - send password (note: fake implemented for testing purposes)
+* ~~PASS - send password~~
 * ~~PASV - enter passive mode~~
 * ~~PORT - open a data port~~
 * ~~PWD - print working directory~~
@@ -74,4 +86,4 @@ Progress
 * STRU - set file transfer structure
 * ~~SYST - return system type~~
 * ~~TYPE - set the transfer type~~
-* USER - send username (note: fake implemented for testing purposes)
+* ~~USER - send username~~
