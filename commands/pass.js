@@ -7,7 +7,6 @@ command.add('PASS', 'PASS <sp> password', function (password, output, session) {
   auth.authenticate(session.user, password, function (err, user) {
     if (err) {
       output.write(530, 'Login incorrect.');
-      output.close();
     } else {
       // Setup chroot
       fs.setChrootHome(user.chroot);
