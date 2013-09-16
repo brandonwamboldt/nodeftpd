@@ -1,5 +1,6 @@
 var auth    = require('../lib/auth');
 var command = require('../lib/command');
+var config  = require('../lib/config');
 var fs      = require('../lib/fs');
 
 command.add('PASS', 'PASS <sp> password', function (password, output, session) {
@@ -18,7 +19,7 @@ command.add('PASS', 'PASS <sp> password', function (password, output, session) {
       session.cwd           = fs.unresolve(user.home);
 
       // Status message
-      output.write(230, 'Authenticated as ' + session.user);
+      output.write(230, 'Authenticated as ' + session.user.username + ' via the ' + config.get('auth.mechanism') + ' auth provider');
     }
   });
 });
