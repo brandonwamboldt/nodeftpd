@@ -64,8 +64,9 @@ The parent process listens for new connections and passes them off to a process 
 FTP Documentation
 -----------------
 
-* [http://www.nsftools.com/tips/RawFTP.htm](http://www.nsftools.com/tips/RawFTP.htm)
-* [http://www.ipswitch.com/support/ws_ftp-server/guide/v5/a_ftpref3.html](http://www.ipswitch.com/support/ws_ftp-server/guide/v5/a_ftpref3.html)
+* [RFC 3659 - Extensions to FTP](http://tools.ietf.org/html/rfc3659)
+* [List of raw FTP commands](http://www.nsftools.com/tips/RawFTP.htm)
+* [FTP Commands](http://www.ipswitch.com/support/ws_ftp-server/guide/v5/a_ftpref3.html)
 
 Progress
 --------
