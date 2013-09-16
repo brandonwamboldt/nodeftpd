@@ -1,9 +1,9 @@
 NodeFTPD
 ========
 
-NodeFTPD is an FTP server written for Node.js. It's currently under heavy development and should not, under any circumstances, be used in production (or any environment connected to the Internet). It doesn't even support real authentication yet!
+NodeFTPD is an FTP server written for Node.js. It's currently under heavy development and should not, under any circumstances, be used in production (or any environment connected to the Internet).
 
-It is however, a real FTP server. The bulk of basic FTP features have been implemented, and I'm currently working on authentication and features related to that.
+It is however, a real FTP server. The bulk of basic FTP features have been implemented, and I'm working on more advanced features like alternative authentication mechanisms and SSL/TLS support (FTPS/FTPES).
 
 The project is a Node.js/JavaScript learning project, but I intend on making it into a feature complete FTP server that I can deploy on my own servers.
 
@@ -44,6 +44,15 @@ Authentication Mechanisms
 -------------------------
 
 The system only supports Linux accounts via PAM at the moment. More drivers are coming soon!
+
+Chrooting
+---------
+
+The chroot functionality allows you to set a user's root directory to something other than than `/`, and they will not be able to perform operations on any file or directory outside of their chroot directory. For example, you may wish to set the chroot to `~`, the user's home directory. If the user `brandon` with the home directory `/home/brandon` logs in, he'll see a current working directory of `/`, which will *actually* be `/home/brandon`.
+
+You may also set the chroot path to an absolute pathname, such as `/var/www/html`.
+
+Chrooting is implemented in the code using an abstraction of the `fs` library. This is because the node modules that provide chroot functionality are buggy and unreliable.
 
 FTP Documentation
 -----------------

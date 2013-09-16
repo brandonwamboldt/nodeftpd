@@ -1,4 +1,4 @@
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 var command = require('../lib/command');
 var channel = require('../lib/datachannel');
 

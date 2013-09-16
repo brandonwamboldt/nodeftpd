@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('SITE CHMOD', '', function (parameters, output, session) {
   var params = parameters.match(/([^ ]+) (.*)/);

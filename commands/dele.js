@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('DELE', 'DELETE <sp> pathname', dele, {maxArguments: 1, minArguments: 1});
 

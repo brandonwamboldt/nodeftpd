@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 var moment  = require('moment');
 
 command.add('MDTM', 'MDTM <sp> pathname', mdtm, {maxArguments: 1, minArguments: 1});

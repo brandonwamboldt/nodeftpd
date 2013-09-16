@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('SIZE', 'SIZE <sp> pathname', size, {maxArguments: 1, minArguments: 1});
 

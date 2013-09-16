@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('CWD', 'CWD <sp> pathname', cwd, {maxArguments: 1, minArguments: 1});
 

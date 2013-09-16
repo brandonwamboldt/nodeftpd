@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('MKD', 'MKD <sp> pathname', function (mkdir, output, session) {
   if (mkdir.trim() === '') {

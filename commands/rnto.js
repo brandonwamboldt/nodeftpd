@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('RNTO', 'RNTO <sp> pathname', rnto, {maxArguments: 1, minArguments: 1});
 

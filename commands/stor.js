@@ -1,6 +1,6 @@
 var command = require('../lib/command');
 var channel = require('../lib/datachannel');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('STOR', 'STOR <sp> pathname', function (path, output, session) {
   var success = channel.create(session, function (socket, done) {

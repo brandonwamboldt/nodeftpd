@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('RMD', 'RMD <sp> pathname', function (rmdir, output, session) {
   if (rmdir.trim() === '') {

@@ -2,7 +2,7 @@ var command = require('../lib/command');
 var config  = require('../lib/config');
 var channel = require('../lib/datachannel');
 var net     = require('net');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('LIST', 'LIST [<sp> pathname]', list);
 

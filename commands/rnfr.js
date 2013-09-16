@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var fs      = require('fs');
+var fs      = require('../lib/fs');
 
 command.add('RNFR', 'RNFR <sp> pathname', rnfr, {maxArguments: 1, minArguments: 1});
 

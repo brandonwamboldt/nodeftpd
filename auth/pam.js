@@ -16,10 +16,9 @@ auth.register('pam', function (username, password, done) {
         var user = {
           username: username,
           password: password,
-          chroot: config.get('auth.chroot') === '~' ? userDetails[5] : config.get('auth.chroot')
+          chroot: config.get('auth.chroot') === '~' ? userDetails[5] : config.get('auth.chroot'),
+          home: userDetails[5]
         };
-
-        user.home = fs.unresolve(userDetails[5], user.chroot);
 
         done(err, user);
       });
