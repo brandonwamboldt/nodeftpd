@@ -76,7 +76,7 @@ Progress
 * ~~CDUP - CWD to the parent of the current directory~~
 * ~~CWD - change working directory~~
 * ~~DELE - delete a remote file~~
-* FEAT - list all new FTP features that the server supports (note: fake implementation for testing purposes)
+* ~~FEAT - list all new FTP features that the server supports~~
 * ~~HELP - return help on using hte server~~
 * ~~LIST - list remote files~~
 * ~~MDTM - return the modification time of a file~~
