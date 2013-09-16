@@ -1,15 +1,13 @@
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
-command.add('SIZE', 'SIZE <sp> pathname', size, {maxArguments: 1, minArguments: 1});
-
 /**
  * Returns the size of the remote file as a decimal number.
  * @param {!string} remoteFilename
  * @param {!object} output
  * @param {!object} session
  */
-function size(remoteFilename, output, session) {
+command.add('SIZE', 'SIZE <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (remoteFilename, output, session) {
   // If filename is a relative path, prepend the CWD to it to get an absolute
   // path
   if (remoteFilename[0] !== '/') {
@@ -47,4 +45,4 @@ function size(remoteFilename, output, session) {
       output.write(213, stats.size);
     }
   });
-}
+});

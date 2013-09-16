@@ -1,6 +1,6 @@
 var command = require('../lib/command');
 
-command.add('TYPE', 'TYPE <sp> type-code (A, I, L 7, L 8)', function(type, output, session) {
+command.add('TYPE', 'TYPE <sp> type-code (A, I, L 7, L 8)', function (type, output, session) {
   var typeChar   = type.substr(0, 1);
   var secondChar = type.substr(1, 1);
 

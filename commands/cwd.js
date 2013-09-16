@@ -1,24 +1,22 @@
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
-command.add('CWD', 'CWD <sp> pathname', cwd, {maxArguments: 1, minArguments: 1});
-
-function cwd(cd, output, session) {
+command.add('CWD', 'CWD <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (pathname, output, session) {
   var oldcwd = session.cwd;
 
-  if (cd.substr(cd.length - 1) === '/') {
-    cd = cd.substring(0, cd.length - 1);
+  if (pathname.substr(pathname.length - 1) === '/') {
+    pathname = pathname.substring(0, pathname.length - 1);
   }
 
-  if (cd === '') {
+  if (pathname === '') {
     session.cwd = '/';
-  } else if (cd.substr(0, 1) === '/') {
-    session.cwd = cd;
+  } else if (pathname.substr(0, 1) === '/') {
+    session.cwd = pathname;
   } else {
     if (session.cwd === '/') {
-      session.cwd += cd;
+      session.cwd += pathname;
     } else {
-      session.cwd += '/' + cd;
+      session.cwd += '/' + pathname;
     }
   }
 
@@ -30,4 +28,4 @@ function cwd(cd, output, session) {
      output.write(250, '"' + session.cwd + '" is the new working directory.');
     }
   });
-}
+});

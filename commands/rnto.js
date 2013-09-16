@@ -1,8 +1,6 @@
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
-command.add('RNTO', 'RNTO <sp> pathname', rnto, {maxArguments: 1, minArguments: 1});
-
 /**
  * Used when renaming a file. After sending an RNFR command to specify the file
  * to rename, send this command to specify the new name for the file.
@@ -10,7 +8,7 @@ command.add('RNTO', 'RNTO <sp> pathname', rnto, {maxArguments: 1, minArguments: 
  * @param {!object} output
  * @param {!object} session
  */
-function rnto(toFilename, output, session) {
+command.add('RNTO', 'RNTO <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (toFilename, output, session) {
   // If to name is a relative path, prepend the CWD to it to get an absolute
   // path
   if (toFilename[0] !== '/') {
@@ -69,4 +67,4 @@ function rnto(toFilename, output, session) {
       output.write(250, 'Rename successful');
     }
   });
-}
+});

@@ -1,28 +1,28 @@
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
-command.add('MKD', 'MKD <sp> pathname', function (mkdir, output, session) {
-  if (mkdir.trim() === '') {
+command.add('MKD', 'MKD <sp> pathname', function (pathname, output, session) {
+  if (pathname.trim() === '') {
     output.write(501, 'Invalid number of arguments');
   } else {
-    if (!mkdir.match(/^\//)) {
+    if (!pathname.match(/^\//)) {
       if (session.cwd == '/') {
-        mkdir = session.cwd + mkdir;
+        pathname = session.cwd + pathname;
       } else {
-        mkdir = session.cwd + '/' + mkdir;
+        pathname = session.cwd + '/' + pathname;
       }
     }
 
-    fs.mkdir(mkdir, function(err) {
+    fs.mkdir(pathname, function(err) {
       if (err) {
         if (err.code === 'EEXIST') {
-          output.write(550, mkdir + ': File exists');
+          output.write(550, pathname + ': File exists');
         } else {
           console.log(err);
-          output.write(550, mkdir + ': Unknown error');
+          output.write(550, pathname + ': Unknown error');
         }
       } else {
-        output.write(257, '"' + mkdir + '" - Directory successfully created');
+        output.write(257, '"' + pathname + '" - Directory successfully created');
       }
     });
   }

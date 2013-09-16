@@ -4,9 +4,7 @@ var channel = require('../lib/datachannel');
 var net     = require('net');
 var fs      = require('../lib/fs');
 
-command.add('LIST', 'LIST [<sp> pathname]', list);
-
-function list(type, output, session) {
+command.add('LIST', 'LIST [<sp> pathname]', function (pathname, output, session) {
   // Create a new data channel
   var success = channel.create(session, function (socket, done) {
     // Read in the files/directories in the user's current working
@@ -64,4 +62,4 @@ function list(type, output, session) {
   } else {
     output.write(150, 'Here comes the directory listing.');
   }
-}
+});
