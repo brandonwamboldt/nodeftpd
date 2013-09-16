@@ -1,0 +1,18 @@
+{
+  "folders": [
+    {
+      "name": "NodeFTPD",
+      "path": ".",
+      "folder_exclude_patterns": ["node_modules"],
+      "follow_symlinks": true
+    }
+  ],
+  "settings": {
+    "tab_size": 2,
+    "rulers": [80, 120],
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": true,
+    "default_line_ending": "unix",
+    "ensure_newline_at_eof_on_save": true
+  }
+}
