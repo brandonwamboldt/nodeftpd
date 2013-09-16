@@ -96,7 +96,7 @@ Progress
 * ~~RNTO - rename to~~
 * SITE - site-specific commands (partially implemented)
 * ~~SIZE - return the size of a file~~
-* STAT - return server status
+* ~~STAT - return server status~~
 * ~~STOR - store a file on the remote host~~
 * STOU - store a file uniquely
 * STRU - set file transfer structure
