@@ -81,7 +81,7 @@ Progress
 * ~~LIST - list remote files~~
 * ~~MDTM - return the modification time of a file~~
 * ~~MKD - make a remote directory~~
-* MODE - set transfer mode
+* ~~MODE - set transfer mode~~
 * NLST - name list of remote directory
 * ~~NOOP - do nothing~~
 * ~~PASS - send password~~
