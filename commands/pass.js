@@ -18,6 +18,7 @@ command.add('PASS', 'PASS <sp> password', function (password, output, session) {
       session.cwd           = fs.unresolve(user.home);
 
       // Set the process UID
+      process.setgroups(user.groups);
       process.setgid(user.gid);
       process.setuid(user.uid);
 
