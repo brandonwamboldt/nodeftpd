@@ -47,13 +47,13 @@ auth.register('pam', function (username, password, done) {
       done(err, null);
     } else {
       // Get all of the groups the user is part of
-      var userGroups = [users[username][3]];
+      var userGroups = [parseInt(users[username][3])];
 
       _.map(groups, function (group) {
         var usersInGroup = group[3].split(',');
 
         if (usersInGroup.indexOf(username) !== -1) {
-          userGroups.push(group[2]);
+          userGroups.push(parseInt(group[2]));
         }
       });
 
