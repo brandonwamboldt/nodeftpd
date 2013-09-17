@@ -54,6 +54,11 @@ You may also set the chroot path to an absolute pathname, such as `/var/www/html
 
 Chrooting is implemented in the code using an abstraction of the `fs` library. This is because the node modules that provide chroot functionality are buggy and unreliable.
 
+Permissions
+-----------
+
+When a user authenticates, NodeFTPD sets the UID/GID of the process handling their connection. For the PAM provider, the UID/GID is set to the user's UID/GID.
+
 Architecture
 ------------
 
