@@ -17,6 +17,10 @@ command.add('PASS', 'PASS <sp> password', function (password, output, session) {
       session.chrootHome    = user.chroot;
       session.cwd           = fs.unresolve(user.home);
 
+      // Set the process UID
+      process.setgid(user.gid);
+      process.setuid(user.uid);
+
       // Status message
       output.write(230, 'Authenticated as ' + session.user.username + ' via the ' + config.get('auth.mechanism') + ' auth provider');
     }
