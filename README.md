@@ -12,7 +12,7 @@ Installation
 
 This software is in **alpha**. It's **NOT** ready for use in any type of production environment.
 
-* The **PAM dev** package is required. On Ubuntu variants, install with `sudo apt-get install libpam-dev`. On CentOS variants, install with `sudo yum install pam-devel`.
+* The **PAM dev** package is required. On Ubuntu variants, install with `sudo apt-get install libpam-dev`. On CentOS variants, install with `sudo yum install pam-devel`. On Debian variants, install with `sudo apt-get install libpam0g-dev`.
 * Clone this repository or [download as a zip](https://github.com/brandonwamboldt/nodeftpd/archive/master.zip),
 * Run `npm install` to install dependencies
 * Run `npm start`. It will auto detect your IP and run on port 21.
