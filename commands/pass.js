@@ -23,7 +23,7 @@ command.add('PASS', 'PASS <sp> password', function (password, output, session) {
       process.setuid(user.uid);
 
       // Status message
-      output.write(230, 'Authenticated as ' + session.user.username + ' via the ' + config.get('auth.mechanism') + ' auth provider');
+      output.write(230, 'Authenticated as ' + session.user.username + ' via the ' + config.auth.provider + ' auth provider');
     }
   });
 });

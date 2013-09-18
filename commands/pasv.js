@@ -7,8 +7,8 @@ command.add('PASV', 'PASV (returns address/port)', function (type, output, sessi
   session.mode = 'passive';
 
   // Generate a passive port
-  if (typeof config.get('passivePortRange') === 'string') {
-    var range = config.get('passivePortRange').split('-');
+  if (typeof config.passive_port_range === 'string') {
+    var range = config.passive_port_range.split('-');
 
     for (var port = parseInt(range[0]); port < parseInt(range[1]); port++) {
       if (state.data.passivePorts.indexOf(port) === -1) {

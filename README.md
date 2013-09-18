@@ -33,11 +33,13 @@ The configuration file is `/etc/nodeftpd.conf`. It expects a JSON file. Example 
   // Network interface to listen on
   "listen": "127.0.0.1",
 
-  // The authentication mechanism to use (config, mongo, mysql, pam, postgres, redis)
-  "auth.mechanism": "pam",
+  "auth": {
+    // The authentication mechanism to use (config, mongo, mysql, pam, postgres, redis)
+    "provider": "pam",
 
-  // Chroot directory (~ is the user's home directory, otherwise use an absolute path)
-  "auth.chroot": "~"
+    // Chroot directory (~ is the user's home directory, otherwise use an absolute path)
+    "chroot": "~"
+  }
 }
 ```
 
