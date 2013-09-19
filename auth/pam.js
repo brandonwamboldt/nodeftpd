@@ -63,7 +63,7 @@ auth.register('pam', function (username, password, done) {
         gid: parseInt(users[username][3]),
         username: username,
         password: password,
-        chroot: config.get('auth.chroot') === '~' ? users[username][5] : config.get('auth.chroot'),
+        chroot: config.auth.chroot === '~' ? users[username][5] : config.auth.chroot,
         home: users[username][5],
         groups: userGroups
       };
