@@ -1,5 +1,5 @@
 var command = require('../lib/command');
-var app     = require('../lib/process_child');
+var app     = require('../bin/worker');
 var config  = require('../lib/config');
 var state   = require('../lib/state');
 

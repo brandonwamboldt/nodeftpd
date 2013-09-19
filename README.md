@@ -12,10 +12,62 @@ Installation
 
 This software is in **alpha**. It's **NOT** ready for use in any type of production environment.
 
+### Latest Code
+
 * The **PAM dev** package is required. On Ubuntu variants, install with `sudo apt-get install libpam-dev`. On CentOS variants, install with `sudo yum install pam-devel`. On Debian variants, install with `sudo apt-get install libpam0g-dev`.
-* Clone this repository or [download as a zip](https://github.com/brandonwamboldt/nodeftpd/archive/master.zip),
+* Clone this repository or [download as a zip](https://github.com/brandonwamboldt/nodeftpd/archive/master.zip)
 * Run `npm install` to install dependencies
 * Run `npm start`. It will auto detect your IP and run on port 21.
+
+### From NPM
+
+* The **PAM dev** package is required. On Ubuntu variants, install with `sudo apt-get install libpam-dev`. On CentOS variants, install with `sudo yum install pam-devel`. On Debian variants, install with `sudo apt-get install libpam0g-dev`.
+* Run `npm install -g nodeftpd`
+* Run `nodeftpd start`. It will auto detect your IP and run on port 21.
+
+Commands
+--------
+
+These instructions assume you've installed NodeFTPD via NPM or placed the NodeFTPD binary in your `PATH` variable.
+
+### Start NodeFTPD
+
+```
+nodeftpd start
+```
+
+### Stop NodeFTPD
+
+```
+nodeftpd stop
+```
+
+### Restart NodeFTPD
+
+```
+nodeftpd restart
+```
+
+### NodeFTPD status
+
+```
+nodeftpd status
+```
+
+### Help
+
+```
+nodeftpd help
+```
+
+Logs
+----
+
+Every FTP command and response is logged. By default, these logs are stored in `/var/log/nodeftpd/access.log`.
+
+Error logs are stored in `/var/log/nodeftpd/error.log`.
+
+Forever logs (the daemon used to run NodeFTPD) are stored in `/var/log/nodeftpd/forever.log`.
 
 Configuration
 -------------
@@ -76,8 +128,8 @@ FTP Documentation
 * [List of raw FTP commands](http://www.nsftools.com/tips/RawFTP.htm)
 * [FTP Commands](http://www.ipswitch.com/support/ws_ftp-server/guide/v5/a_ftpref3.html)
 
-Progress
---------
+Implementation
+--------------
 
 * ABOR - abort a file transfer
 * ACCT - send account information

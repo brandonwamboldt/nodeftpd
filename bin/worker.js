@@ -1,8 +1,10 @@
+global.processType = 'child';
+
 // Module Dependencies
-var sessionManager = require('./session-manager');
-var commandChannel = require('./command-channel');
-var config         = require('./config');
-var logger         = require('./logger');
+var sessionManager = require('../lib/session-manager');
+var commandChannel = require('../lib/command-channel');
+var config         = require('../lib/config');
+var logger         = require('../lib/logger');
 var net            = require('net');
 var fs             = require('fs');
 var eventQueue     = [];

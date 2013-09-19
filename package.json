@@ -15,7 +15,9 @@
   },
   "main": "./bin/nodeftpd",
   "scripts": {
-    "start": "./bin/nodeftpd"
+    "start": "./bin/nodeftpd start",
+    "stop": "./bin/nodeftpd stop",
+    "postinstall": "mkdir /var/log/nodeftpd"
   },
   "repository": {
     "type": "git",
@@ -32,7 +34,8 @@
     "authenticate-pam": "0.1.x",
     "mongodb": "1.3.x",
     "colors": "0.6.x",
-    "commander": "2.0.x"
+    "commander": "2.0.x",
+    "forever": "*"
   },
   "license": "MIT",
   "engines": {

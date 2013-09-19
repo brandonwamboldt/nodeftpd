@@ -1,16 +1,24 @@
 #!/usr/bin/env node
 
-global.processType = 'parent'
+// Third party dependencies
+var program = require('commander');
 
-process.argv.forEach(function (val, index, array) {
-  if (val === '--child') {
-    global.processType = 'child';
-    return false;
-  }
-});
+// Local dependencies
+var nodeftpd = require('../lib/nodeftpd');
 
-if (global.processType === 'parent') {
-  require(__dirname + '/../lib/process_parent').start();
-} else {
-  require(__dirname + '/../lib/process_child');
-}
+// Arguments
+program.version('0.1.0')
+  .option('-p', '--pidfile [file]', 'The pid file')
+  .option('-l', '--logfile [file]', 'Logs the Forever output to [file]')
+  .option('-a', '--accessfile [file]', 'Logs NodeFTPD command logs to [file]')
+  .option('-e', '--errfile [file]', 'Logs NodeFTPD error logs to [file]');
+
+// Commands
+program.command('help').description('Show this help text').action(nodeftpd.help);
+program.command('status').description('Display the status of NodeFTPD').action(nodeftpd.status);
+program.command('stop').description('Stop NodeFTPD').action(nodeftpd.stop);
+program.command('restart').description('Restart NodeFTPD').action(nodeftpd.restart);
+program.command('*').description('Start NodeFTPD').action(nodeftpd.start);
+
+// Run
+program.parse(process.argv);
