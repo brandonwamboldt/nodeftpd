@@ -72,7 +72,12 @@ process.on('message', function (m, socket) {
 
   // Expose socket events to make for nicer code
   socket.on('data', function (data) {
-    logger.log('info', '[%s:%d] Command received: %s', remoteAddr, remotePort, data.toString().trim());
+    // Special handling for PASS command
+    if (data.toString().trim().match(/PASS /i)) {
+      logger.log('info', '[%s:%d] Command received: PASS ********', remoteAddr, remotePort);
+    } else {
+      logger.log('info', '[%s:%d] Command received: %s', remoteAddr, remotePort, data.toString().trim());
+    }
 
     // Emit a low level event
     socket.emit('client:data', data, socket, command, session);
