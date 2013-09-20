@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.2.3
+-----
+
+* FIX - Fix a bug in the logger only replacing the first set of color tags
+
 0.2.2
 -----
 
