@@ -4,6 +4,7 @@ Changelog
 0.2.2
 -----
 
+* FIX - Run `start` if `nodeftpd` is called with no arguments
 * FIX - Don't restart supervisor.js if it crashes, it should only crash for a good reason
 * FIX - Don't crash on `nodeftpd status` if no forever processes are found
 

@@ -21,4 +21,8 @@ program.command('restart').description('Restart NodeFTPD').action(nodeftpd.resta
 program.command('*').description('Start NodeFTPD').action(nodeftpd.start);
 
 // Run
-program.parse(process.argv);
+var result = program.parse(process.argv);
+
+if (result.args.length === 0) {
+  nodeftpd.start();
+}
