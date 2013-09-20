@@ -4,6 +4,7 @@ Changelog
 0.2.2
 -----
 
+* FIX - Don't restart supervisor.js if it crashes, it should only crash for a good reason
 * FIX - Don't crash on `nodeftpd status` if no forever processes are found
 
 0.2.1
