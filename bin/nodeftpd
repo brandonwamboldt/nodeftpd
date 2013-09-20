@@ -7,7 +7,7 @@ var program = require('commander');
 var nodeftpd = require('../lib/nodeftpd');
 
 // Arguments
-program.version('0.2.2')
+program.version('0.2.3')
   .option('-p', '--pidfile [file]', 'The pid file')
   .option('-l', '--logfile [file]', 'Logs the Forever output to [file]')
   .option('-a', '--accessfile [file]', 'Logs NodeFTPD command logs to [file]')
