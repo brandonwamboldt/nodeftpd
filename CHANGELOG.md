@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.2.1
+-----
+
+* Fix install error caused by making the log directory
+
 0.2.0
 -----
 
