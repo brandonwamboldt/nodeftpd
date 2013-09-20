@@ -54,6 +54,8 @@ process.on('message', function (m, socket) {
     return;
   }
 
+  logger.log('info', '<cyan>[Process Manager]</cyan> Child process with PID %d receiving connection', process.pid);
+
   // Expose the socket
   exports.socket = socket;
 
@@ -74,9 +76,9 @@ process.on('message', function (m, socket) {
   socket.on('data', function (data) {
     // Special handling for PASS command
     if (data.toString().trim().match(/PASS /i)) {
-      logger.log('info', '[%s:%d] Command received: PASS ********', remoteAddr, remotePort);
+      logger.log('info', '<grey>[%s:%d] Command:</grey>  <- PASS ********', remoteAddr, remotePort);
     } else {
-      logger.log('info', '[%s:%d] Command received: %s', remoteAddr, remotePort, data.toString().trim());
+      logger.log('info', '<grey>[%s:%d] Command:</grey>  <- %s', remoteAddr, remotePort, data.toString().trim());
     }
 
     // Emit a low level event
@@ -87,12 +89,12 @@ process.on('message', function (m, socket) {
   });
 
   socket.on('end', function () {
-    logger.log('info', '[%s:%d] Client Disconnected', remoteAddr, remotePort);
+    logger.log('info', '<grey>[%s:%d]</grey> Client Disconnected', remoteAddr, remotePort);
     socket.emit('client:end');
   });
 
   socket.on('close', function () {
-    logger.log('info', '[%s:%d] Connection Closed, Goodbye', remoteAddr, remotePort);
+    logger.log('info', '<grey>[%s:%d]</grey> Connection Closed, Goodbye', remoteAddr, remotePort);
     socket.emit('client:close');
 
     // Exit the child process once the socket has been closed
