@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.3.2
+-----
+
+* FIX - Fix the root user check
+
 0.3.1
 -----
 
