@@ -4,6 +4,7 @@ Changelog
 0.3.1
 -----
 
+* ENHANCEMENT - Make sure we are being run as root
 * FIX - Defer log directory creation to the main process to avoid errors during installation. Fixes issue #3.
 
 0.3.0
