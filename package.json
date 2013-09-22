@@ -17,7 +17,6 @@
   "scripts": {
     "start": "./bin/nodeftpd start",
     "stop": "./bin/nodeftpd stop",
-    "postinstall": "mkdir -p /var/log/nodeftpd",
     "preinstall": "./bin/install_check.sh"
   },
   "repository": {
