@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.2.4
+-----
+
+* ENHANCEMENT - Added a `-D`/`--no-daemon` option to make dev/debugging easier
+* FIX - Fix command line arguments
+
 0.2.3
 -----
 

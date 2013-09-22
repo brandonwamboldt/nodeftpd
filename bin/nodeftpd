@@ -4,14 +4,15 @@
 var program = require('commander');
 
 // Local dependencies
-var nodeftpd = require('../lib/nodeftpd');
+var nodeftpd = require('../lib/nodeftpd')(program);
 
 // Arguments
-program.version('0.2.3')
-  .option('-p', '--pidfile [file]', 'The pid file')
-  .option('-l', '--logfile [file]', 'Logs the Forever output to [file]')
-  .option('-a', '--accessfile [file]', 'Logs NodeFTPD command logs to [file]')
-  .option('-e', '--errfile [file]', 'Logs NodeFTPD error logs to [file]');
+program.version('0.2.4')
+  .option('-p, --pidfile [file]', 'The pid file')
+  .option('-l, --logfile [file]', 'Logs the Forever output to [file]')
+  .option('-a, --accessfile [file]', 'Logs NodeFTPD command logs to [file]')
+  .option('-e, --errfile [file]', 'Logs NodeFTPD error logs to [file]')
+  .option('-D, --no-daemon', 'Don\'t run NodeFTPD as a daemon');
 
 // Commands
 program.command('help').description('Show this help text').action(nodeftpd.help);
