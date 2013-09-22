@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.3.3
+-----
+
+* Implemented active mode transfers.
+
 0.3.2
 -----
 
