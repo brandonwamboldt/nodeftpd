@@ -1,7 +1,7 @@
 {
   "name": "nodeftpd",
   "preferGlobal": true,
-  "version": "0.2.3",
+  "version": "0.3.0",
   "author": "Brandon Wamboldt <brandon.wamboldt@gmail.com>",
   "description": "Flexible, light-weight FTP server",
   "contributors": [

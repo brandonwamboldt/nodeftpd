@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.3.0
+-----
+
+* Reworked passive mode transfers to request a port number from the supervisor process in order to properly maintain state (which ports are in use). This fixes a bug with multiple concurrent downloads.
+* Passive ports are generated randomly instead of sequentially to fix possible exploits.
+
 0.2.4
 -----
 

@@ -44,15 +44,15 @@ exports.on = function () {
 // Listen for the parent process to send the socket when a new connection is
 // created
 process.on('message', function (m, socket) {
-  var session    = sessionManager.startSession();
-  var command    = commandChannel.createChannel(socket);
-  var remoteAddr = socket.remoteAddress;
-  var remotePort = socket.remotePort;
-
   // If the message sent by the parent wasn't a socket, ignore it
   if (m !== 'socket') {
     return;
   }
+
+  var session    = sessionManager.startSession();
+  var command    = commandChannel.createChannel(socket);
+  var remoteAddr = socket.remoteAddress;
+  var remotePort = socket.remotePort;
 
   logger.log('info', '<cyan>[Process Manager]</cyan> Child process with PID %d receiving connection', process.pid);
 
