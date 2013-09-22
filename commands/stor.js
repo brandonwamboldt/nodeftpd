@@ -4,7 +4,13 @@ var fs      = require('../lib/fs');
 
 command.add('STOR', 'STOR <sp> pathname', function (path, output, session) {
   var absolutePath = fs.toAbsolute(path, session.cwd);
-  var stream       = fs.createWriteStream(absolutePath, { flags: 'w' });
+
+  if (session.restByteCount == 0) {
+    var stream = fs.createWriteStream(absolutePath, { flags: 'w' });
+  } else {
+    var stream = fs.createWriteStream(absolutePath, { flags: 'a+', start: session.restByteCount });
+    session.restByteCount = 0;
+  }
 
   stream.on('open', function (fd) {
     var success = channel.create(session, function (socket, done) {

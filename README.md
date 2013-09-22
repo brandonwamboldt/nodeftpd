@@ -152,6 +152,7 @@ Implementation
 * ~~PWD - print working directory~~
 * ~~QUIT - terminate the connection~~
 * ~~REIN - reinitialize the connection~~
+* REST - Restart an interrupted file transfer at the given position
 * ~~RETR - retrieve a remote file~~
 * ~~RMD - remove a remote directory~~
 * ~~RNFR - rename from~~
