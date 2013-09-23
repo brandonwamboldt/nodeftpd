@@ -1,9 +1,10 @@
 Changelog
 =========
 
-0.3.5
+0.4.0
 -----
 
+* General refactoring
 * Implement `STRU`
 * Implement `XCUP`
 * Implement `XCWD`

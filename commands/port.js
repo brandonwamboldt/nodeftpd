@@ -2,7 +2,7 @@
 
 // Local dependencies
 var command     = require('../lib/command');
-var dataChannel = require('../lib/datachannel');
+var dataChannel = require('../lib/data-channel');
 
 /**
  * A PORT request asks the server to use a different mechanism of creating a

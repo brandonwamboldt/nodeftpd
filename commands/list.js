@@ -2,7 +2,7 @@
 
 // Local dependencies
 var command = require('../lib/command');
-var channel = require('../lib/datachannel');
+var channel = require('../lib/data-channel');
 var fs      = require('../lib/fs');
 
 /**

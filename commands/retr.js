@@ -3,7 +3,7 @@
 // Local dependencies
 var fs          = require('../lib/fs');
 var command     = require('../lib/command');
-var dataChannel = require('../lib/datachannel');
+var dataChannel = require('../lib/data-channel');
 
 /**
  * A RETR request asks the server to send the contents of a file over the data
