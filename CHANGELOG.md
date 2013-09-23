@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.3.4
+-----
+
+* Implement `REST`
+* Reimplement `RETR` using Readable Streams and proper encoding handling
+* Refactored the `TYPE` command
+
 0.3.3
 -----
 
