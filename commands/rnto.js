@@ -1,68 +1,27 @@
+// Local dependencies
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
 /**
- * Used when renaming a file. After sending an RNFR command to specify the file
- * to rename, send this command to specify the new name for the file.
- * @param {!string} toFilename
- * @param {!object} output
- * @param {!object} session
+ * A RNTO request asks the server to finish renaming a file. The RNTO parameter
+ * is an encoded pathname specifying the new location of the file. RNTO must
+ * come immediately after RNFR; otherwise the server may reject RNTO with code
+ * 503.
+ *
+ * A typical server accepts RNTO with code 250 if the file was renamed
+ * successfully, or rejects RNTO with code 550 or 553 otherwise.
  */
-command.add('RNTO', 'RNTO <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (toFilename, output, session) {
-  // If to name is a relative path, prepend the CWD to it to get an absolute
-  // path
-  if (toFilename[0] !== '/') {
-    if (session.cwd === '/') {
-      toFilename = session.cwd + toFilename;
-    } else {
-      toFilename = session.cwd + '/' + toFilename;
-    }
-  }
+command.add('RNTO', 'RNTO <sp> pathname', function (pathname, output, session) {
+  var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
-  // Did the user issue an RNFR first?
   if (!session.rnfr) {
-    output.write(503, 'Bad eqeuence of commands');
+    output.write(503, 'Bad sequence of commands');
     return;
   }
 
-  // Move the file
-  fs.rename(session.rnfr, toFilename, function (err) {
+  fs.rename(session.rnfr, absolutePath, function (err) {
     if (err) {
-      // See `unlink(2)` for a complete list of possible errors and their
-      // meanings. We don't want to give too much information away, so
-      // certain rare errors that have nothing to do with user input just
-      // display a generic error (Like EIO, EFAULT, etc)
-      switch (err.code) {
-        case 'EACCES':
-          output.write(550, '%s: Permission denied', toFilename);
-          break;
-        case 'EBUSY':
-          output.write(550, '%s: In use by the system or another process', toFilename);
-          break;
-        case 'EISDIR':
-          output.write(550, '%s: Is a directory', toFilename);
-          break;
-        case 'ELOOP':
-          output.write(550, '%s: Too many symbolic links', toFilename);
-          break;
-        case 'ENAMETOOLONG':
-          output.write(550, '%s: Too long', toFilename);
-          break;
-        case 'ENOENT':
-          output.write(550, '%s: No such file or directory', toFilename);
-          break;
-        case 'ENOTDIR':
-          output.write(550, '%s: Directory is not a directory', toFilename);
-          break;
-        case 'EPERM':
-          output.write(550, '%s: Permission denied', toFilename);
-          break;
-        case 'EROFS':
-          output.write(550, '%s: Read-only file system, cannot delete', toFilename);
-          break;
-        default:
-          output.write(550, '%s: An error occured', toFilename);
-      }
+      output.write(550, fs.errorMessage(err, pathname));
     } else {
       output.write(250, 'Rename successful');
     }
