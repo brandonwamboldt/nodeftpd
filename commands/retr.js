@@ -1,43 +1,47 @@
-var fs      = require('../lib/fs');
-var command = require('../lib/command');
-var channel = require('../lib/datachannel');
+var fs          = require('../lib/fs');
+var command     = require('../lib/command');
+var dataChannel = require('../lib/datachannel');
 
-command.add('RETR', 'RETR <sp> pathname', function (parameters, output, session) {
-  var file = session.cwd + '/' + parameters;
+command.add('RETR', 'RETR <sp> pathname', function (pathname, output, session) {
+  var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
-  if (!fs.existsSync(file)) {
-    output.write(550, parameters + ": No such file or directory");
+  // Are we resuming a file transfer?
+  if (session.restByteCount == 0) {
+    var stream = fs.createReadStream(absolutePath, { flags: 'r' });
   } else {
-    fs.stat(file, function (err, stats) {
-      var size = '';
-
-      if (stats.size < 1024) {
-        size = stats.size + ' bytes';
-      } else if ((stats.size * 1024) < 1024) {
-        size = stats.size + ' kilobytes';
-      } else if ((stats.size * 1024 * 1024) < 1024) {
-        size = stats.size + ' megabytes';
-      } else if ((stats.size * 1024 * 1024 * 1024) < 1024) {
-        size = stats.size + ' gigabytes';
-      } else if ((stats.size * 1024 * 1024 * 1024 * 1024) < 1024) {
-        size = stats.size + ' terabytes';
-      }
-
-      var success = channel.create(session, function (socket, done) {
-        fs.readFile(file, function(err, data) {
-          socket.write(data);
-
-          output.write(226, 'Transfer complete');
-
-          done();
-        });
-      });
-
-      if (!success) {
-          output.write(425, 'Unable to build data connection: Invalid argument');
-      } else {
-          output.write(150, 'Opening ' + session.transferType + ' mode data connection for ' + parameters + ' (' + size + ')');
-      }
-    });
+    var stream = fs.createReadStream(absolutePath, { flags: 'r', start: session.restByteCount });
+    session.restByteCount = 0;
   }
+
+  // Set the encoding
+  if (!session.binary) {
+    stream.setEncoding('ascii');
+  }
+
+  // Catch errors
+  stream.on('error', function (err) {
+    err = fs.errorMessage(err, path);
+    output.write(550, err.msg);
+  });
+
+  // Stat the file so we can get it's size
+  fs.stat(absolutePath, function (err, stats) {
+    var size = stats.size + ' bytes';
+
+    // Create a data channel to initiate the transfer
+    var success = dataChannel.create(session, function (socket, done) {
+      stream.pipe(socket, { end: false });
+      stream.on('end', function () {
+        output.write(226, 'Transfer complete');
+
+        done();
+      });
+    });
+
+    if (!success) {
+      output.write(425, 'Unable to build data connection: Invalid argument');
+    } else {
+      output.write(150, 'Opening ' + session.transferType + ' mode data connection for ' + pathname + ' (' + size + ')');
+    }
+  });
 });
