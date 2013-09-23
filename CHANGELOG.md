@@ -5,6 +5,8 @@ Changelog
 -----
 
 * Implement `STRU`
+* Implement `XCUP`
+* Implement `XCWD`
 
 0.3.4
 -----

@@ -27,7 +27,7 @@ var fs      = require('../lib/fs');
  *
  * RFC 1123 requires that the server treat XCWD as a synonym for CWD.
  */
-command.add('CWD', 'CWD <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (pathname, output, session) {
+command.add('XCWD', 'XCWD <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (pathname, output, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
   fs.readdir(absolutePath, function (err, files) {
