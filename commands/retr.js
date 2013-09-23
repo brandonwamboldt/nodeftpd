@@ -86,8 +86,7 @@ command.add('RETR', 'RETR <sp> pathname', function (pathname, output, session) {
 
   // Catch errors
   stream.on('error', function (err) {
-    err = fs.errorMessage(err, path);
-    output.write(550, err.msg);
+    output.write(550, fs.errorMessage(err, path));
   });
 
   // Stat the file so we can get it's size

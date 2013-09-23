@@ -33,7 +33,6 @@ command.add('STOR', 'STOR <sp> pathname', function (path, output, session) {
   });
 
   stream.on('error', function (err) {
-    err = fs.errorMessage(err, path);
-    output.write(err.status, err.msg);
+    output.write(550, fs.errorMessage(err, path));
   });
 });
