@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.3.5
+-----
+
+* Implement `STRU`
+
 0.3.4
 -----
 

@@ -162,7 +162,7 @@ Implementation
 * ~~STAT - return server status~~
 * ~~STOR - store a file on the remote host~~
 * STOU - store a file uniquely
-* STRU - set file transfer structure
+* ~~STRU - set file transfer structure~~
 * ~~SYST - return system type~~
 * ~~TYPE - set the transfer type~~
 * ~~USER - send username~~

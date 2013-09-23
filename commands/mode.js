@@ -14,6 +14,6 @@ command.add('MODE', 'Syntax: MODE is not implemented (always S)', function (mode
   } else if (mode === 'A' || mode === 'C') {
     commandChannel.write(504, '\'MODE ' + mode + '\' unsupported transfer mode');
   } else {
-    commandChannel.write(500, '\'MODE ' + mode + '\' unrecognized transfer mode');
+    commandChannel.write(501, '\'MODE ' + mode + '\' unrecognized transfer mode');
   }
 });
