@@ -8,6 +8,7 @@ Changelog
 * Implement `XCUP`
 * Implement `XCWD`
 * Implement `XPWD`
+* Implement `XMKD`
 
 0.3.4
 -----

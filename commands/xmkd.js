@@ -14,7 +14,7 @@ var fs      = require('../lib/fs');
  *
  * RFC 1123 requires that the server treat XMKD as a synonym for MKD.
  */
-command.add('MKD', 'MKD <sp> pathname', function (pathname, output, session) {
+command.add('XMKD', 'XMKD <sp> pathname', function (pathname, output, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
   fs.mkdir(pathname, function (err) {
