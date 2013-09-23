@@ -15,7 +15,7 @@ var fs      = require('../lib/fs');
  *
  * RFC 1123 requires that the server treat XCUP as a synonym for CDUP.
  */
-command.add('CDUP', 'CDUP (up one directory)', function (nil, output, session) {
+command.add('XCUP', 'XCUP (up one directory)', function (nil, output, session) {
   session.cwd = fs.toAbsolute('../', session.cwd);
-  output.write(250, 'CDUP command successful.');
+  output.write(250, 'XCUP command successful.');
 });
