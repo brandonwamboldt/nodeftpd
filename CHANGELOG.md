@@ -10,6 +10,7 @@ Changelog
 * Implement `XCWD`
 * Implement `XPWD`
 * Implement `XMKD`
+* Basic PASV connection highjacking prevention by checking the client IP
 
 0.3.4
 -----
