@@ -1,46 +1,28 @@
+// Local dependencies
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
 /**
- * Returns the size of the remote file as a decimal number.
- * @param {!string} remoteFilename
- * @param {!object} output
- * @param {!object} session
+ * The FTP command, SIZE OF FILE (SIZE), is used to obtain the transfer size of
+ * a file from the server-FTP process.  This is the exact number of octets (8
+ * bit bytes) that would be transmitted over the data connection should that
+ * file be transmitted.  This value will change depending on the current
+ * STRUcture, MODE, and TYPE of the data connection or of a data connection that
+ * would be created were one created now.  Thus, the result of the SIZE command
+ * is dependent on the currently established STRU, MODE, and TYPE parameters.
+ *
+ * Note that when the 213 response is issued, that is, when there is no error,
+ * the format MUST be exactly as specified. Multi-line responses are not
+ * permitted.
+ *
+ * SIZE is defined in RFC 3659 - Extensions to FTP
  */
-command.add('SIZE', 'SIZE <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (remoteFilename, output, session) {
-  // If filename is a relative path, prepend the CWD to it to get an absolute
-  // path
-  if (remoteFilename[0] !== '/') {
-    if (session.cwd === '/') {
-      remoteFilename = session.cwd + remoteFilename;
-    } else {
-      remoteFilename = session.cwd + '/' + remoteFilename;
-    }
-  }
+command.add('SIZE', 'SIZE <sp> pathname', function (pathname, output, session) {
+  var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
-  // Does the file exist?
-  fs.stat(remoteFilename, function (err, stats) {
+  fs.stat(pathname, function (err, stats) {
     if (err) {
-      // See `stat(2)` for a complete list of possible errors and their
-      // meanings. We don't want to give too much information away, so
-      // certain rare errors that have nothing to do with user input just
-      // display a generic error (Like EIO, EFAULT, etc)
-      switch (err.code) {
-        case 'EACCES':
-          output.write(550, '%s: Permission denied', remoteFilename);
-          break;
-        case 'ELOOP':
-          output.write(550, '%s: Too many symbolic links', remoteFilename);
-          break;
-        case 'ENAMETOOLONG':
-          output.write(550, '%s: Too long', remoteFilename);
-          break;
-        case 'ENOENT':
-          output.write(550, '%s: No such file or directory', remoteFilename);
-          break;
-        default:
-          output.write(550, '%s: An error occured', remoteFilename);
-      }
+      output.write(550, fs.errorMessage(err, pathname));
     } else {
       output.write(213, stats.size);
     }
