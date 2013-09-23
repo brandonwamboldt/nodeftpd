@@ -1,6 +1,7 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
-var config  = require('../lib/config');
 var channel = require('../lib/datachannel');
 var fs      = require('../lib/fs');
 
@@ -90,12 +91,12 @@ var fs      = require('../lib/fs');
  * sorting are user-interface features that can and should be handled by the
  * client.
  */
-command.add('NLST', 'NLST [<sp> pathname]', function (pathame, output, session) {
+command.add('NLST', 'NLST [<sp> pathname]', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
   fs.readdir(absolutePath, function (err, files) {
     if (err) {
-      output.write(550, fs.errorMessage(err, absolutePath));
+      commandChannel.write(550, fs.errorMessage(err, absolutePath));
       return;
     }
 
@@ -107,15 +108,15 @@ command.add('NLST', 'NLST [<sp> pathname]', function (pathame, output, session) 
         socket.write(files[i] + '\r\n');
       }
 
-      output.write(226, 'Directory sent OK.');
+      commandChannel.write(226, 'Directory sent OK.');
 
       done();
     });
 
     if (!success) {
-      output.write(425, 'Unable to build data connection: Invalid argument');
+      commandChannel.write(425, 'Unable to build data connection: Invalid argument');
     } else {
-      output.write(150, 'Here comes the directory listing.');
+      commandChannel.write(150, 'Here comes the directory listing.');
     }
   });
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
@@ -14,14 +16,14 @@ var fs      = require('../lib/fs');
  *
  * RFC 1123 requires that the server treat XMKD as a synonym for MKD.
  */
-command.add('MKD', 'MKD <sp> pathname', function (pathname, output, session) {
+command.add('MKD', 'MKD <sp> pathname', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
-  fs.mkdir(pathname, function (err) {
+  fs.mkdir(absolutePath, function (err) {
     if (err) {
-      output.write(550, fs.errorMessage(err, pathname));
+      commandChannel.write(550, fs.errorMessage(err, pathname));
     } else {
-      output.write(257, '"' + fs.encodePathname(pathname) + '" - Directory successfully created');
+      commandChannel.write(257, '"' + fs.encodePathname(pathname) + '" - Directory successfully created');
     }
   });
 });

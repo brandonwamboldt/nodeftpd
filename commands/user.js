@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 

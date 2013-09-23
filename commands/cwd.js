@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
@@ -27,15 +29,15 @@ var fs      = require('../lib/fs');
  *
  * RFC 1123 requires that the server treat XCWD as a synonym for CWD.
  */
-command.add('CWD', 'CWD <sp> pathname', { maxArguments: 1, minArguments: 1 }, function (pathname, output, session) {
+command.add('CWD', 'CWD <sp> pathname', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
-  fs.readdir(absolutePath, function (err, files) {
+  fs.readdir(absolutePath, function (err) {
     if (err) {
-      output.write(550, pathname + ': No such file or directory');
+      commandChannel.write(550, fs.errorMessage(err, pathname));
     } else {
       session.cwd = absolutePath;
-      output.write(250, '"' + pathname + '" is the new working directory.');
+      commandChannel.write(250, '"' + pathname + '" is the new working directory.');
     }
   });
 });

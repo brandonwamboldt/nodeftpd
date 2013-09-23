@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 var channel = require('../lib/datachannel');
@@ -31,14 +33,15 @@ var fs      = require('../lib/fs');
  * previous STOR for the same file transmitted at least the number of bytes
  * given by the start position.
  */
-command.add('STOR', 'STOR <sp> pathname', function (pathname, output, session) {
+command.add('STOR', 'STOR <sp> pathname', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
+  var stream;
 
   // Are we resuming a failed upload (the client issued a REST command)
-  if (session.restByteCount == 0) {
-    var stream = fs.createWriteStream(absolutePath, { flags: 'w' });
+  if (session.restByteCount === 0) {
+    stream = fs.createWriteStream(absolutePath, { flags: 'w' });
   } else {
-    var stream = fs.createWriteStream(absolutePath, { flags: 'a+', start: session.restByteCount });
+    stream = fs.createWriteStream(absolutePath, { flags: 'a+', start: session.restByteCount });
     session.restByteCount = 0;
   }
 
@@ -47,22 +50,22 @@ command.add('STOR', 'STOR <sp> pathname', function (pathname, output, session) {
     var success = channel.create(session, function (socket, done) {
       socket.pipe(stream);
 
-      socket.on('end', function (data) {
+      socket.on('end', function () {
         stream.end();
         done();
-        output.write(226, 'Transfer Complete');
+        commandChannel.write(226, 'Transfer Complete');
       });
     });
 
     if (!success) {
-      output.write(425, 'Unable to build data connection: Invalid argument');
+      commandChannel.write(425, 'Unable to build data connection: Invalid argument');
     } else {
-      output.write(150, 'Opening ' + session.transferType.toUpperCase() + ' mode data connection for ' + pathname);
+      commandChannel.write(150, 'Opening ' + session.transferType.toUpperCase() + ' mode data connection for ' + pathname);
     }
   });
 
   // Catch any fs errors
   stream.on('error', function (err) {
-    output.write(550, fs.errorMessage(err, pathname));
+    commandChannel.write(550, fs.errorMessage(err, pathname));
   });
 });

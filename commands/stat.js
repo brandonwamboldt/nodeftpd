@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 
@@ -33,17 +35,17 @@ var command = require('../lib/command');
  * support STAT, the output is even more difficult to parse than the output of
  * LIST.
  */
-command.add('STAT', 'STAT [<sp> pathname]', function (p, output, session) {
-  output.write(211, '-Status of \'NodeFTPD\'');
-  output.write('Connected from ' + session.clientIp + ' (' + session.clientIp + ')');
-  output.write('Logged in as ' + session.user.username);
-  output.write('TYPE: ' + session.transferType + ', STRUcture: File, Mode: Stream');
-  output.write('Total bytes transferred for session: ' + session.bytesTransferred);
+command.add('STAT', 'STAT [<sp> pathname]', function (pathname, commandChannel, session) {
+  commandChannel.write(211, '-Status of \'NodeFTPD\'');
+  commandChannel.write('Connected from ' + session.clientIp + ' (' + session.clientIp + ')');
+  commandChannel.write('Logged in as ' + session.user.username);
+  commandChannel.write('TYPE: ' + session.transferType + ', STRUcture: File, Mode: Stream');
+  commandChannel.write('Total bytes transferred for session: ' + session.bytesTransferred);
 
   if (session.dataChannel) {
-    output.write('Open data connection');
+    commandChannel.write('Open data connection');
   } else {
-    output.write('No data connection');
+    commandChannel.write('No data connection');
   }
-  output.write(211, 'End of status');
+  commandChannel.write(211, 'End of status');
 });

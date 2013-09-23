@@ -11,19 +11,19 @@ var fs      = require('../lib/fs');
  * A typical server accepts RNTO with code 250 if the file was renamed
  * successfully, or rejects RNTO with code 550 or 553 otherwise.
  */
-command.add('RNTO', 'RNTO <sp> pathname', function (pathname, output, session) {
+command.add('RNTO', 'RNTO <sp> pathname', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
   if (!session.rnfr) {
-    output.write(503, 'Bad sequence of commands');
+    commandChannel.write(503, 'Bad sequence of commands');
     return;
   }
 
   fs.rename(session.rnfr, absolutePath, function (err) {
     if (err) {
-      output.write(550, fs.errorMessage(err, pathname));
+      commandChannel.write(550, fs.errorMessage(err, pathname));
     } else {
-      output.write(250, 'Rename successful');
+      commandChannel.write(250, 'Rename successful');
     }
   });
 });

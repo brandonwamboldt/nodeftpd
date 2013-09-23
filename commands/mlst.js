@@ -1,17 +1,17 @@
-var command = require('../lib/command');
-var config  = require('../lib/config');
-var channel = require('../lib/datachannel');
-// Dependencies
+'use strict';
+
+// Local Dependencies
 var facter  = require('../lib/facts');
 var fs      = require('../lib/fs');
-var moment  = require('moment');
-var path    = require('path');
-var net     = require('net');
+var command = require('../lib/command');
 
-command.add('MLST', 'MLST [<sp> pathname]', function (pathname, output, session) {
-  pathname = pathname || '';
+/**
+ * SIZE is defined in RFC 3659 - Extensions to FTP
+ */
+command.add('MLST', 'MLST [<sp> pathname]', function (pathname, commandChannel, session) {
+  var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
-  fs.stat(path.normalize(session.cwd + '/' + pathname), function (err, stat) {
+  fs.stat(absolutePath, function (err, stat) {
     var facts = '';
     facts += 'modify=' + facter.modify(stat);
     facts += ';perm=' + facter.perm(stat, session.user);
@@ -32,11 +32,11 @@ command.add('MLST', 'MLST [<sp> pathname]', function (pathname, output, session)
     facts += ';UNIX.group=' + stat.gid;
     facts += ';UNIX.mode=' + stat.mode.toString(10).substring(2);
     facts += ';UNIX.owner=' + stat.uid;
-    facts += '; ' + path.normalize(session.cwd + '/' + pathname);
+    facts += '; ' + absolutePath;
 
-    output.write(250, '- Start of list for ' + path.normalize(session.cwd + '/' + pathname));
-    output.write(' ' + facts);
-    output.write('');
-    output.write(250, 'End of list');
+    commandChannel.write(250, '- Start of list for ' + absolutePath);
+    commandChannel.write(' ' + facts);
+    commandChannel.write('');
+    commandChannel.write(250, 'End of list');
   });
 });

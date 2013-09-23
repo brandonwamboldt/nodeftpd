@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var fs          = require('../lib/fs');
 var command     = require('../lib/command');
@@ -68,14 +70,15 @@ var dataChannel = require('../lib/datachannel');
  * response; this screws up file transfers to clients that do not close the data
  * connection immediately. This also wastes a round-trip time for other clients.
  */
-command.add('RETR', 'RETR <sp> pathname', function (pathname, output, session) {
+command.add('RETR', 'RETR <sp> pathname', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
+  var stream;
 
   // Are we resuming a file transfer?
-  if (session.restByteCount == 0) {
-    var stream = fs.createReadStream(absolutePath, { flags: 'r' });
+  if (session.restByteCount === 0) {
+    stream = fs.createReadStream(absolutePath, { flags: 'r' });
   } else {
-    var stream = fs.createReadStream(absolutePath, { flags: 'r', start: session.restByteCount });
+    stream = fs.createReadStream(absolutePath, { flags: 'r', start: session.restByteCount });
     session.restByteCount = 0;
   }
 
@@ -86,7 +89,7 @@ command.add('RETR', 'RETR <sp> pathname', function (pathname, output, session) {
 
   // Catch errors
   stream.on('error', function (err) {
-    output.write(550, fs.errorMessage(err, path));
+    commandChannel.write(550, fs.errorMessage(err, pathname));
   });
 
   // Stat the file so we can get it's size
@@ -97,16 +100,16 @@ command.add('RETR', 'RETR <sp> pathname', function (pathname, output, session) {
     var success = dataChannel.create(session, function (socket, done) {
       stream.pipe(socket, { end: false });
       stream.on('end', function () {
-        output.write(226, 'Transfer complete');
+        commandChannel.write(226, 'Transfer complete');
 
         done();
       });
     });
 
     if (!success) {
-      output.write(425, 'Unable to build data connection: Invalid argument');
+      commandChannel.write(425, 'Unable to build data connection: Invalid argument');
     } else {
-      output.write(150, 'Opening ' + session.transferType + ' mode data connection for ' + pathname + ' (' + size + ')');
+      commandChannel.write(150, 'Opening ' + session.transferType + ' mode data connection for ' + pathname + ' (' + size + ')');
     }
   });
 });

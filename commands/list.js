@@ -1,6 +1,7 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
-var config  = require('../lib/config');
 var channel = require('../lib/datachannel');
 var fs      = require('../lib/fs');
 
@@ -90,7 +91,7 @@ var fs      = require('../lib/fs');
  * sorting are user-interface features that can and should be handled by the
  * client.
  */
-command.add('LIST', 'LIST [<sp> pathname]', function (pathname, output, session) {
+command.add('LIST', 'LIST [<sp> pathname]', function (pathname, commandChannel, session) {
   // Create a new data channel
   var success = channel.create(session, function (socket, done) {
     // Read in the files/directories in the user's current working
@@ -106,7 +107,7 @@ command.add('LIST', 'LIST [<sp> pathname]', function (pathname, output, session)
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var mode   = '';
         var omode  = parseInt(stat.mode.toString(8), 10);
-        var omode  = omode.toString().substr(omode.toString().length - 3);
+        omode      = omode.toString().substr(omode.toString().length - 3);
 
         if (stat.isFile()) {
           mode += '-';
@@ -115,21 +116,21 @@ command.add('LIST', 'LIST [<sp> pathname]', function (pathname, output, session)
         }
 
         for (var j = 0; j < 3; j++) {
-          if (omode[j] == '0') {
+          if (omode[j] === '0') {
             mode += '---';
-          } else if (omode[j] == '1') {
+          } else if (omode[j] === '1') {
             mode += '--x';
-          } else if (omode[j] == '2') {
+          } else if (omode[j] === '2') {
             mode += '-w-';
-          } else if (omode[j] == '3') {
+          } else if (omode[j] === '3') {
             mode += '-wx';
-          } else if (omode[j] == '4') {
+          } else if (omode[j] === '4') {
             mode += 'r--';
-          } else if (omode[j] == '5') {
+          } else if (omode[j] === '5') {
             mode += 'r-x';
-          } else if (omode[j] == '6') {
+          } else if (omode[j] === '6') {
             mode += 'rw-';
-          } else if (omode[j] == '7') {
+          } else if (omode[j] === '7') {
             mode += 'rwx';
           }
         }
@@ -137,15 +138,15 @@ command.add('LIST', 'LIST [<sp> pathname]', function (pathname, output, session)
         socket.write(mode + ' 1 ' + stat.uid + ' ' + stat.gid + '  ' + stat.size + ' ' + months[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + files[i] + '\n');
       }
 
-      output.write(226, 'Directory sent OK.');
+      commandChannel.write(226, 'Directory sent OK.');
 
       done();
     });
   });
 
   if (!success) {
-    output.write(425, 'Unable to build data connection: Invalid argument');
+    commandChannel.write(425, 'Unable to build data connection: Invalid argument');
   } else {
-    output.write(150, 'Here comes the directory listing.');
+    commandChannel.write(150, 'Here comes the directory listing.');
   }
 });

@@ -1,10 +1,17 @@
+'use strict';
+
+// Local dependencies
 var command = require('../lib/command');
 
-command.add('FEAT', 'FEAT (returns feature list)', function (parameters, output, session) {
-  output.write(211, '-Features');
-  output.write('MDTM');
-  output.write('REST STREAM');
-  output.write('PASV');
-  output.write('SIZE');
-  output.write(211, 'end');
+/**
+ * FEAT is defined in RFC 2389 - Feature negotiation mechanism for the File
+ * Transfer Protocol
+ */
+command.add('FEAT', 'FEAT (returns feature list)', function (nil, commandChannel) {
+  commandChannel.write(211, '-Features');
+  commandChannel.write('MDTM');
+  commandChannel.write('REST STREAM');
+  commandChannel.write('PASV');
+  commandChannel.write('SIZE');
+  commandChannel.write(211, 'end');
 });

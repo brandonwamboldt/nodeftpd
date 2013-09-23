@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 
@@ -26,6 +28,6 @@ var command = require('../lib/command');
  *
  * exactly as used by the majority of current servers.
  */
-command.add('SYST', 'SYST (returns system type)', function (parameters, output, session) {
-  output.write(215, 'UNIX Type: L8');
+command.add('SYST', 'SYST (returns system type)', function (parameters, commandChannel) {
+  commandChannel.write(215, 'UNIX Type: L8');
 });

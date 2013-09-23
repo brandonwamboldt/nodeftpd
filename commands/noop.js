@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 
@@ -6,6 +8,6 @@ var command = require('../lib/command');
  * NOOP parameters are prohibited. A typical server accepts NOOP (required code
  * 200).
  */
-command.add('NOOP', 'NOOP (no operation)', function () {
-  output.write(200, 'NOOP command successful');
+command.add('NOOP', 'NOOP (no operation)', function (nil, commandChannel) {
+  commandChannel.write(200, 'NOOP command successful');
 });

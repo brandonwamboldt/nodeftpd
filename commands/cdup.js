@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
@@ -15,7 +17,7 @@ var fs      = require('../lib/fs');
  *
  * RFC 1123 requires that the server treat XCUP as a synonym for CDUP.
  */
-command.add('CDUP', 'CDUP (up one directory)', function (nil, output, session) {
+command.add('CDUP', 'CDUP (up one directory)', function (nil, commandChannel, session) {
   session.cwd = fs.toAbsolute('../', session.cwd);
-  output.write(250, 'CDUP command successful.');
+  commandChannel.write(250, 'CDUP command successful.');
 });

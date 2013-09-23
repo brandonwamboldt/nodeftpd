@@ -1,6 +1,7 @@
+'use strict';
+
 // Local dependencies
 var command = require('../lib/command');
-var fs      = require('../lib/fs');
 
 /**
  * The server keeps track of a start position for the client. The start position
@@ -34,12 +35,12 @@ var fs      = require('../lib/fs');
  * previous transfer.
  */
 command.add('REST', 'REST <sp> byte-count', function (byteCount, commandChannel, session) {
-  byteCount = parseInt(byteCount);
+  byteCount = parseInt(byteCount, 10);
 
   if (byteCount < 0) {
     commandChannel.write(501, 'REST requires a value greater than or equal to 0');
   } else {
-    session.restByteCount = parseInt(byteCount);
+    session.restByteCount = byteCount;
 
     commandChannel.write(350, 'Restarting at ' + byteCount + '. Send STORE or RETRIEVE to initiate transfer');
   }

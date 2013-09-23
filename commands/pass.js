@@ -1,3 +1,5 @@
+'use strict';
+
 // Local dependencies
 var auth    = require('../lib/auth');
 var command = require('../lib/command');
@@ -20,10 +22,10 @@ var fs      = require('../lib/fs');
  * the USER response, and many of today's non-pipelining clients send PASS in
  * every case; so it is important for the server to accept PASS with code 202.
  */
-command.add('PASS', 'PASS <sp> password', function (password, output, session) {
+command.add('PASS', 'PASS <sp> password', function (password, commandChannel, session) {
   auth.authenticate(session.user, password, function (err, user) {
     if (err) {
-      output.write(530, 'Login incorrect.');
+      commandChannel.write(530, 'Login incorrect.');
     } else {
       // Setup chroot
       fs.setChrootHome(user.chroot);
@@ -40,7 +42,7 @@ command.add('PASS', 'PASS <sp> password', function (password, output, session) {
       process.setuid(user.uid);
 
       // Status message
-      output.write(230, 'Authenticated as ' + session.user.username + ' via the ' + config.auth.provider + ' auth provider');
+      commandChannel.write(230, 'Authenticated as ' + session.user.username + ' via the ' + config.auth.provider + ' auth provider');
     }
   });
 });

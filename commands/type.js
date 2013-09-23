@@ -1,3 +1,6 @@
+'use strict';
+
+// Local dependencies
 var command = require('../lib/command');
 
 /**
@@ -24,21 +27,21 @@ var command = require('../lib/command');
  * RFC 959 also defined several more TYPE parameters, all of which are now
  * obsolete.
  */
-command.add('TYPE', 'TYPE <sp> type-code (A, I, L 7, L 8)', function (type, output, session) {
+command.add('TYPE', 'TYPE <sp> type-code (A, I, L 7, L 8)', function (type, commandChannel, session) {
   type = type.toUpperCase();
 
   // Check for A or A N, which indicate ASCII mode transfers.
   if (type.match(/^A[0-9]?$/)) {
-    output.write(200, 'Switching to ASCII mode.');
+    commandChannel.write(200, 'Switching to ASCII mode.');
     session.binary       = false;
     session.type         = 'A';
     session.transferType = 'ASCII';
   } else if (type.match(/^L[0-9]?$/) || type === 'I') {
-    output.write(200, 'Switching to Binary mode.');
+    commandChannel.write(200, 'Switching to Binary mode.');
     session.binary       = true;
     session.type         = 'I';
     session.transferType = 'binary';
   } else {
-    output.write(500, 'Unrecognized TYPE command.');
+    commandChannel.write(500, 'Unrecognized TYPE command.');
   }
 });

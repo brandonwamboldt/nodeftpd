@@ -1,39 +1,24 @@
+'use strict';
+
+// Local dependencies
 var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
-command.add('RMD', 'RMD <sp> pathname', function (rmdir, output, session) {
-  if (rmdir.trim() === '') {
-    output.write(501, 'Invalid number of arguments');
-  } else {
-    if (!rmdir.match(/^\//)) {
-      if (session.cwd === '/') {
-          rmdir = session.cwd + rmdir;
-      } else {
-          rmdir = session.cwd + '/' + rmdir;
-      }
-    }
+/**
+ * An RMD request asks the server to remove a directory. The RMD parameter is an
+ * encoded pathname specifying the directory.
+ *
+ * A typical server accepts RMD with code 250 if the directory was successfully
+ * removed, or rejects RMD with code 550 if the removal failed.
+ */
+command.add('RMD', 'RMD <sp> pathname', function (pathname, commandChannel, session) {
+  var absoluetPath = fs.toAbsolute(pathname, session.cwd);
 
-    // Don't allow them to delete the root directory
-    if (rmdir === '/') {
-      output.write(550, 'Permission denied: You cannot delete the root directory');
-      return false;
+  fs.rmdir(absoluetPath, function (err) {
+    if (err) {
+      commandChannel.write(550, fs.errorMessage(err, pathname));
+    } else {
+      commandChannel.write(250, 'RMD command successful');
     }
-
-    fs.rmdir(rmdir, function (err) {
-      if (err) {
-        if (err.code === 'ENOENT') {
-          output.write(550, '%s: File or directory does not exist', rmdir);
-        } else if (err.code === 'ENOTEMPTY') {
-          output.write(550, '%s: Directory not empty, cannot remove', rmdir);
-        } else if (err.code === 'EACCES') {
-          output.write(550, '%s: Permission denied', rmdir);
-        } else {
-          console.log(err);
-          output.write(550, '%s: Unknown error', rmdir);
-        }
-      } else {
-        output.write(250, 'RMD command successful');
-      }
-    });
-  }
+  });
 });

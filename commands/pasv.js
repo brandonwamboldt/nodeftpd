@@ -1,7 +1,8 @@
+'use strict';
+
 // Local dependencies
 var app     = require('../bin/worker');
 var command = require('../lib/command');
-var config  = require('../lib/config');
 
 /**
  * A PASV request asks the server to accept a data connection on a new TCP port
@@ -55,7 +56,9 @@ command.add('PASV', 'PASV (returns address/port)', function (nil, commandChannel
 
   // Listen for the port # from the supervisor
   process.on('message', function setPassivePort (message) {
-    if (message.action !== 'get_passive_port') return;
+    if (message.action !== 'get_passive_port') {
+      return;
+    }
 
     // Remove the event listener so it doesn't fire again. We can't use .once
     // here because we may be sending more messages than get_passive_port.
