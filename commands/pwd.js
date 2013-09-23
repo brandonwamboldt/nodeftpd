@@ -1,5 +1,6 @@
 // Local dependencies
 var command = require('../lib/command');
+var fs      = require('../lib/fs');
 
 /**
  * A PWD request asks the server to print the name prefix:

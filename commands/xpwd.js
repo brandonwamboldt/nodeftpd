@@ -1,5 +1,6 @@
 // Local dependencies
 var command = require('../lib/command');
+var fs      = require('../lib/fs');
 
 /**
  * A PWD request asks the server to print the name prefix:
@@ -25,6 +26,6 @@ var command = require('../lib/command');
  *
  * RFC 1123 requires that the server treat XPWD as a synonym for PWD.
  */
-command.add('PWD', 'PWD (returns current working directory)', function (nil, output, session) {
+command.add('XPWD', 'XPWD (returns current working directory)', function (nil, output, session) {
   output.write(257, '"' + fs.encodePathname(session.cwd) + '"');
 });
