@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.4.2
+-----
+
+* Implement `STOU`
+
 0.4.1
 -----
 
