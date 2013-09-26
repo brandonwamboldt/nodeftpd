@@ -5,6 +5,7 @@ Changelog
 -----
 
 * Implement `STOU`
+* FIX - Add `size` fact to `MLSx` commands
 
 0.4.1
 -----

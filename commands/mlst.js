@@ -15,6 +15,7 @@ command.add('MLST', 'MLST [<sp> pathname]', function (pathname, commandChannel, 
     var facts = '';
     facts += 'modify=' + facter.modify(stat);
     facts += ';perm=' + facter.perm(stat, session.user);
+    facts += ';size=' + stat.size;
 
     if (stat.isFile()) {
       facts += ';type=file';
