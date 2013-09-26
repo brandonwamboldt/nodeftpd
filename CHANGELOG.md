@@ -4,6 +4,7 @@ Changelog
 0.4.2
 -----
 
+* Implement `APPE`
 * Implement `STOU`
 * FIX - Add `size` fact to `MLSx` commands
 
