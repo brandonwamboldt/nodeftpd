@@ -4,6 +4,8 @@ Changelog
 0.4.2
 -----
 
+* Use the [EPLF](http://cr.yp.to/ftp/list/eplf.html) format for the `LIST` command
+* Better error handling for the `LIST` command
 * Implement `APPE`
 * Implement `STOU`
 * FIX - Add `size` fact to `MLSx` commands
