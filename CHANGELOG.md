@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.4.1
+-----
+
+* Implement `MLSD`
+
 0.4.0
 -----
 

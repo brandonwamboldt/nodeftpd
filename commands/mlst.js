@@ -6,7 +6,7 @@ var fs      = require('../lib/fs');
 var command = require('../lib/command');
 
 /**
- * SIZE is defined in RFC 3659 - Extensions to FTP
+ * MLST is defined in RFC 3659 - Extensions to FTP
  */
 command.add('MLST', 'MLST [<sp> pathname]', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);

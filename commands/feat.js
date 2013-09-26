@@ -10,6 +10,7 @@ var command = require('../lib/command');
 command.add('FEAT', 'FEAT (returns feature list)', function (nil, commandChannel) {
   commandChannel.write(211, '-Features');
   commandChannel.write('MDTM');
+  commandChannel.write('MLST modify*;perm*;size*;type*;unique*;UNIX.group*;UNIX.mode*;UNIX.owner*;');
   commandChannel.write('REST STREAM');
   commandChannel.write('PASV');
   commandChannel.write('SIZE');
