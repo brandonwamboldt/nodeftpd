@@ -5,9 +5,10 @@ var program = require('commander');
 
 // Local dependencies
 var nodeftpd = require('../lib/nodeftpd')(program);
+var pkg     = require('../package.json');
 
 // Arguments
-program.version('0.4.3')
+program.version(pkg.version)
   .option('-p, --pidfile [file]', 'The pid file')
   .option('-l, --logfile [file]', 'Logs the Forever output to [file]')
   .option('-a, --accessfile [file]', 'Logs NodeFTPD command logs to [file]')
