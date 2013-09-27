@@ -42,7 +42,7 @@ if (config.tls.enabled) {
   // Start the server and bind to the appropriate port
   tlsServer.listen(config.tls.port, config.listen, function () {
     logger.log('info', '<green>[Daemon]</green> Starting NodeFTPD (TLS)');
-    logger.log('info', '<green>[Daemon]</green> Listening on %s:%d (TLS)', config.listen, config.port);
+    logger.log('info', '<green>[Daemon]</green> Listening on %s:%d (TLS)', config.listen, config.tls.port);
   });
 
   // Listen for the server.close event

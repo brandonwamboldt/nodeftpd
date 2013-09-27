@@ -5,6 +5,7 @@ Changelog
 -----
 
 * Config files are now YAML
+* FIX - Show the correct port when listening for TLS
 
 0.4.3
 -----
