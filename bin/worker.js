@@ -120,6 +120,16 @@ process.on('message', function (m, socket) {
   });
 });
 
+// Log when the process exits
 process.on('exit', function () {
   logger.log('info', '<cyan>[Process Manager]</cyan> Exiting child process with PID %d', process.pid);
+});
+
+// Catch unhandled exceptions
+process.on('uncaughtException', function (err) {
+  var stackTrace = err.stack.split('\n');
+
+  for (var i = 0; i < stackTrace.length; i++) {
+    logger.log('info', '<red>[Exception Handler]</red> %s', stackTrace[i]);
+  }
 });
