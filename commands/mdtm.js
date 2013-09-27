@@ -16,7 +16,7 @@ var fs      = require('../lib/fs');
 command.add('MDTM', 'MDTM <sp> pathname', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
 
-  fs.stat(pathname, function (err, stats) {
+  fs.stat(absolutePath, function (err, stats) {
     if (err) {
       commandChannel.write(550, fs.errorMessage(err, pathname));
     } else {
