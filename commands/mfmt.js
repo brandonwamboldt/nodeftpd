@@ -13,7 +13,7 @@ var fs      = require('../lib/fs');
  * @param {!object} commandChannel
  * @param {!object} session
  */
-command.add('MFMT', 'MFMT <sp> time <sp> pathname', function (args, commandChannel, session) {
+command.add('MFMT', 'MFMT <sp> time-val <sp> pathname', function (args, commandChannel, session) {
   // Right number of arguments?
   if (args.split(' ').length < 2) {
     commandChannel.write(501, 'Invalid number of arguments');
