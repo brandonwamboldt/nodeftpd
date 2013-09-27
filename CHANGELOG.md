@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.4.3
+-----
+
+* FTP over implicit TLS support added
+* `PROT` implemented
+* `PBSZ` implemented
+
 0.4.2
 -----
 
