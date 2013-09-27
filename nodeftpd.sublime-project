@@ -3,7 +3,6 @@
     {
       "name": "NodeFTPD",
       "path": ".",
-      "folder_exclude_patterns": ["node_modules"],
       "follow_symlinks": true
     }
   ],
