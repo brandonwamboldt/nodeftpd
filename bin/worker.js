@@ -9,6 +9,10 @@ var net            = require('net');
 var fs             = require('fs');
 var eventQueue     = [];
 
+// They attach a listener to the process uncaughtException event so we need to
+// include the module now so our uncaughtException handler happens after
+require('tmp');
+
 // Set the logging level
 logger.setLogLevel(config.logging.level);
 
@@ -126,10 +130,13 @@ process.on('exit', function () {
 });
 
 // Catch unhandled exceptions
+process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err) {
   var stackTrace = err.stack.split('\n');
 
   for (var i = 0; i < stackTrace.length; i++) {
     logger.log('info', '<red>[Exception Handler]</red> %s', stackTrace[i]);
   }
+
+  process.exit(1);
 });
