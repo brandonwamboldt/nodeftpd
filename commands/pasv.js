@@ -1,8 +1,9 @@
 'use strict';
 
 // Local dependencies
-var command = require('../lib/command');
-var config  = require('../lib/config');
+var command     = require('../lib/command');
+var dataChannel = require('../lib/data-channel');
+var config      = require('../lib/config');
 
 /**
  * A PASV request asks the server to accept a data connection on a new TCP port
@@ -43,6 +44,10 @@ var config  = require('../lib/config');
  * rejected.
  */
 command.add('PASV', 'PASV (returns address/port)', function (nil, commandChannel, session) {
+  // Close any open data channels
+  dataChannel.close();
+
+  // Set the data transfer mode
   session.mode = 'passive';
 
   // Free up any existing ports
