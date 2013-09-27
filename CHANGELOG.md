@@ -5,6 +5,7 @@ Changelog
 -----
 
 * Config files are now YAML
+* Implement `MFMT`
 * FIX - Show the correct port when listening for TLS
 * FIX - Don't start logging messages until we have the IP (TLS)
 
