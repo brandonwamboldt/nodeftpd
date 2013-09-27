@@ -3,6 +3,7 @@
 
 listen: '%default_ip%'
 port: 21
+socket: /var/run/nodeftpd.sock
 logging:
   level: info
 passive_port_range: 40000-60000
