@@ -4,27 +4,35 @@
 var program = require('commander');
 
 // Local dependencies
-var nodeftpd = require('../lib/nodeftpd')(program);
-var pkg     = require('../package.json');
+var nodeftpd = require('../lib/program')(program);
+var pkg      = require('../package.json');
 
-// Arguments
 program.version(pkg.version)
   .option('-p, --pidfile [file]', 'The pid file')
-  .option('-l, --logfile [file]', 'Logs the Forever output to [file]')
   .option('-a, --accessfile [file]', 'Logs NodeFTPD command logs to [file]')
   .option('-e, --errfile [file]', 'Logs NodeFTPD error logs to [file]')
   .option('-D, --no-daemon', 'Don\'t run NodeFTPD as a daemon');
 
-// Commands
-program.command('help').description('Show this help text').action(nodeftpd.help);
-program.command('status').description('Display the status of NodeFTPD').action(nodeftpd.status);
-program.command('stop').description('Stop NodeFTPD').action(nodeftpd.stop);
-program.command('restart').description('Restart NodeFTPD').action(nodeftpd.restart);
-program.command('*').description('Start NodeFTPD').action(nodeftpd.start);
+program.command('help')
+  .description('Show this help text')
+  .action(nodeftpd.help);
 
-// Run
-var result = program.parse(process.argv);
+program.command('status')
+  .description('Display the status of NodeFTPD')
+  .action(nodeftpd.status);
 
-if (result.args.length === 0) {
+program.command('stop')
+  .description('Stop NodeFTPD')
+  .action(nodeftpd.stop);
+
+program.command('restart')
+  .description('Restart NodeFTPD')
+  .action(nodeftpd.restart);
+
+program.command('*')
+  .description('Start NodeFTPD')
+  .action(nodeftpd.start);
+
+if (program.parse(process.argv).args.length === 0) {
   nodeftpd.start();
 }
