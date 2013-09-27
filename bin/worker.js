@@ -70,26 +70,33 @@ process.on('message', function (m, socket) {
     socket.on.apply(socket, Array.prototype.slice.call(eventQueue[i]));
   }
 
-  logger.log('info', '[%s:%d] Client Connected, Hello', remoteAddr, remotePort);
-
-  // Send a hello message
-  command.write(220, config.motd);
+  // Don't do these if we don't have an IP (we'll do it later once we get the
+  // user's IP)
+  if (session.clientIp) {
+    logger.log('info', '[%s:%d] Client Connected, Hello', remoteAddr, remotePort);
+    command.write(220, config.motd);
+  }
 
   // Expose socket events to make for nicer code
   socket.on('data', function (data) {
+    // Used only by the parent process to set the IP, used when we're in TLS
+    // mode as we don't have access to the real socket.
+    if (data.toString().match(/^SETIP (.*?):(.*)/) && !session.clientIp && session.isSecure) {
+      var ip           = data.toString().match(/^SETIP (.*?):(.*)/);
+      session.clientIp = remoteAddr = command.remoteAddress = ip[1];
+      remotePort       = command.remotePort = ip[2];
+
+      // These messares deferred until we get the IP address
+      logger.log('info', '[%s:%d] Client Connected, Hello', remoteAddr, remotePort);
+      command.write(220, config.motd);
+      return;
+    }
+
     // Special handling for PASS command
     if (data.toString().trim().match(/PASS /i)) {
       logger.log('info', '<grey>[%s:%d] Command:</grey>  <- PASS ********', remoteAddr, remotePort);
     } else {
       logger.log('info', '<grey>[%s:%d] Command:</grey>  <- %s', remoteAddr, remotePort, data.toString().trim());
-    }
-
-    // Special
-    if (data.toString().match(/^SETIP (.*?):(.*)/) && !session.clientIp && session.isSecure) {
-      var ip           = data.toString().match(/^SETIP (.*?):(.*)/);
-      session.clientIp = remoteAddr = command.remoteAddress = ip[1];
-      remotePort       = command.remotePort = ip[2];
-      return;
     }
 
     // Emit a low level event

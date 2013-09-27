@@ -6,6 +6,7 @@ Changelog
 
 * Config files are now YAML
 * FIX - Show the correct port when listening for TLS
+* FIX - Don't start logging messages until we have the IP (TLS)
 
 0.4.3
 -----
