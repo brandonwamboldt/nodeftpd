@@ -95,6 +95,31 @@ The configuration file is `/etc/nodeftpd.conf`. It expects a JSON file. Example 
 }
 ```
 
+TLS/SSL
+-------
+
+### Explicit TLS
+
+This is not yet implemented
+
+### Implicit TLS
+
+**Warning: This feature is new and unstable**
+
+Add the following to your config file:
+
+```javascript
+{
+  "tls": {
+    "enabled": true,
+    "key": "/root/server-key.pem",
+    "cert": "/root/server-cert.pem"
+  }
+}
+```
+
+Listens on port 990 by default. Supports active and passive mode transfers.
+
 Authentication Mechanisms
 -------------------------
 
