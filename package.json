@@ -13,7 +13,7 @@
   "bin": {
     "nodeftpd": "./bin/nodeftpd"
   },
-  "main": "./bin/nodeftpd",
+  "main": "./lib/nodeftpd",
   "scripts": {
     "start": "./bin/nodeftpd start",
     "stop": "./bin/nodeftpd stop",
