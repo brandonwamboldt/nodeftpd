@@ -10,7 +10,7 @@ var logger     = require('../lib/logger');
 var supervisor = require('../lib/supervisor');
 
 // Set the logging level
-logger.setLogLevel(config.log_level);
+logger.setLogLevel(config.logging.level);
 
 // Create a pool of 5 child processes to handle new connections. We always
 // want at least 5 child processes available. Each one takes about 30ms to

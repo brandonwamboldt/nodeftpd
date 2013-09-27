@@ -10,7 +10,7 @@ var fs             = require('fs');
 var eventQueue     = [];
 
 // Set the logging level
-logger.setLogLevel(config.log_level);
+logger.setLogLevel(config.logging.level);
 
 // New child process awaiting connections
 logger.log('info', '<cyan>[Process Manager]</cyan> Child process with PID %d listening', process.pid);

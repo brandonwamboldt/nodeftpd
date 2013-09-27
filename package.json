@@ -36,6 +36,7 @@
     "colors": "0.6.x",
     "commander": "2.0.x",
     "tmp": "0.0.x",
+    "js-yaml": "2.1.x",
     "forever": "*"
   },
   "license": "MIT",

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.5.0
+-----
+
+* Config files are now YAML
+
 0.4.3
 -----
 

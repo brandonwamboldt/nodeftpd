@@ -72,27 +72,12 @@ Forever logs (the daemon used to run NodeFTPD) are stored in `/var/log/nodeftpd/
 Configuration
 -------------
 
-The configuration file is `/etc/nodeftpd.conf`. It expects a JSON file. Example configuration below:
+The configuration file is `/etc/nodeftpd.yml`. It expects a YAML file. Example configuration below:
 
-```javascript
-{
-  // The message of the day shown when users connect
-  "motd": "",
-
-  // The port to listen on
-  "port": 21,
-
-  // Network interface to listen on
-  "listen": "127.0.0.1",
-
-  "auth": {
-    // The authentication mechanism to use (config, mongo, mysql, pam, postgres, redis)
-    "provider": "pam",
-
-    // Chroot directory (~ is the user's home directory, otherwise use an absolute path)
-    "chroot": "~"
-  }
-}
+```yaml
+port: 10021
+passive_port_range: 45000-55000
+motd: 'NodeFTPD %pkg.version% Server (%os.hostname%)'
 ```
 
 TLS/SSL
@@ -108,14 +93,12 @@ This is not yet implemented
 
 Add the following to your config file:
 
-```javascript
-{
-  "tls": {
-    "enabled": true,
-    "key": "/root/server-key.pem",
-    "cert": "/root/server-cert.pem"
-  }
-}
+```yaml
+tls:
+  enabled: true,
+  key: /root/server-key.pem
+  cert: /root/server-cert.pem
+  port: 990
 ```
 
 Listens on port 990 by default. Supports active and passive mode transfers.

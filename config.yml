@@ -1,0 +1,17 @@
+# Don't change this file, it's the default config file. Instead, please edit
+# /etc/nodeftpd.yml
+
+listen: '%default_ip%'
+port: 21
+logging:
+  level: info
+passive_port_range: 40000-60000
+motd: 'NodeFTPD %pkg.version% Server (%os.hostname%)'
+auth:
+  provider: pam
+  default_chroot: '~'
+tls:
+  enabled: false
+  key: ''
+  cert: ''
+  port: 990
