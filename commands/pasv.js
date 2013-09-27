@@ -1,8 +1,8 @@
 'use strict';
 
 // Local dependencies
-var app     = require('../bin/worker');
 var command = require('../lib/command');
+var config  = require('../lib/config');
 
 /**
  * A PASV request asks the server to accept a data connection on a new TCP port
@@ -68,7 +68,7 @@ command.add('PASV', 'PASV (returns address/port)', function (nil, commandChannel
     session.passiveMode.port = message.port;
     var port1 = Math.floor(message.port / 256);
     var port2 = message.port % 256;
-    var port  = app.socket.address().address.replace(/\./g, ',') + ',' + port1 + ',' + port2;
+    var port  = config.listen.replace(/\./g, ',') + ',' + port1 + ',' + port2;
 
     commandChannel.write(227, ' Entering passive mode (' + port + ')');
   });

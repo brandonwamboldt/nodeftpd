@@ -45,7 +45,7 @@ exports.on = function () {
 // created
 process.on('message', function (m, socket) {
   // If the message sent by the parent wasn't a socket, ignore it
-  if (m !== 'socket') {
+  if (m !== 'socket' && m !== 'tls_socket') {
     return;
   }
 
@@ -56,11 +56,14 @@ process.on('message', function (m, socket) {
 
   logger.log('info', '<cyan>[Process Manager]</cyan> Child process with PID %d receiving connection', process.pid);
 
-  // Expose the socket
-  exports.socket = socket;
-
   // Save the IP
   session.clientIp = remoteAddr;
+
+  // TLS?
+  session.isSecure = m === 'tls_socket';
+
+  // Expose the socket
+  exports.socket = socket;
 
   // Proxy any event listeners onto the socket
   for (var i in eventQueue) {
@@ -79,6 +82,14 @@ process.on('message', function (m, socket) {
       logger.log('info', '<grey>[%s:%d] Command:</grey>  <- PASS ********', remoteAddr, remotePort);
     } else {
       logger.log('info', '<grey>[%s:%d] Command:</grey>  <- %s', remoteAddr, remotePort, data.toString().trim());
+    }
+
+    // Special
+    if (data.toString().match(/^SETIP (.*?):(.*)/) && !session.clientIp && session.isSecure) {
+      var ip           = data.toString().match(/^SETIP (.*?):(.*)/);
+      session.clientIp = remoteAddr = command.remoteAddress = ip[1];
+      remotePort       = command.remotePort = ip[2];
+      return;
     }
 
     // Emit a low level event
