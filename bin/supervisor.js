@@ -52,6 +52,10 @@ process.on('SIGTERM', function () {
   }
 });
 
+process.on('GRACEFULTERM', function () {
+  supervisor.killAllWorkers();
+});
+
 // Catch uncaught exceptions so we can do a graceful shutdown
 process.on('uncaughtException', function (err) {
   var stackTrace = err.stack.split('\n');
