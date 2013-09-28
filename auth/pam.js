@@ -1,10 +1,11 @@
+'use strict';
+
 // Third party dependencies
 var pam = require('authenticate-pam');
 
 // Local dependencies
 var auth   = require('../lib/auth');
 var config = require('../lib/config');
-var fs     = require('../lib/fs');
 var unix   = require('../lib/unix');
 
 // Register our authentication mechanism
