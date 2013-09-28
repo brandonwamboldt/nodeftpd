@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 // Third party dependencies
 var program = require('commander');
 

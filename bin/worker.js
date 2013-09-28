@@ -1,13 +1,18 @@
-global.processType = 'child';
+'use strict';
 
-// Module Dependencies
+// Third party dependencies
+var fs = require('fs');
+
+// Local dependencies
 var sessionManager = require('../lib/session-manager');
 var commandChannel = require('../lib/command-channel');
 var config         = require('../lib/config');
 var logger         = require('../lib/logger');
-var net            = require('net');
-var fs             = require('fs');
-var eventQueue     = [];
+
+// We need to attach listeners to the socket, but we don't get the socket for a
+// while after the process starts, so we temporarily store listeners here and
+// then transfer them to the socket when we receive it
+var eventQueue = [];
 
 // They attach a listener to the process uncaughtException event so we need to
 // include the module now so our uncaughtException handler happens after
@@ -15,22 +20,6 @@ require('tmp');
 
 // New child process awaiting connections
 logger.log('notice', 'Worker (pid %d) waiting', process.pid);
-
-// Load command modules right away so there ready when a new connection is
-// established
-fs.readdir(__dirname + '/../commands', function (err, files) {
-  for (var i = 0; i < files.length; i++) {
-    require(__dirname + '/../commands/' + files[i]);
-  }
-});
-
-// Load authentication mechanisms right away so there ready when a new
-// connection is established
-fs.readdir(__dirname + '/../auth', function (err, files) {
-  for (var i = 0; i < files.length; i++) {
-    require(__dirname + '/../auth/' + files[i]);
-  }
-});
 
 // Allow code to hook into the socket.on event before a socket exists using a
 // queue based proxy
@@ -50,24 +39,22 @@ process.on('message', function (m, socket) {
     return;
   }
 
-  var session    = sessionManager.startSession();
-  var command    = commandChannel.createChannel(socket);
-  var remoteAddr = socket.remoteAddress;
-  var remotePort = socket.remotePort;
+  _setupConnection(m, socket);
+});
 
+var _setupConnection = function (socketType, socket) {
   logger.log('notice', 'Worker (pid %d) receiving connection', process.pid);
 
-  // Save the IP
+  var session      = sessionManager.startSession();
+  var command      = commandChannel.createChannel(socket);
+  var remoteAddr   = socket.remoteAddress;
+  var remotePort   = socket.remotePort;
   session.clientIp = remoteAddr;
-
-  // TLS?
-  session.isSecure = m === 'tls_socket';
-
-  // Expose the socket
-  exports.socket = socket;
+  session.isSecure = (socketType === 'tls_socket');
+  exports.socket   = socket;
 
   // Proxy any event listeners onto the socket
-  for (var i in eventQueue) {
+  for (var i = 0; i < eventQueue.length; i++) {
     socket.on.apply(socket, Array.prototype.slice.call(eventQueue[i]));
   }
 
@@ -93,17 +80,14 @@ process.on('message', function (m, socket) {
       return;
     }
 
-    // Special handling for PASS command
+    // Special handling for PASS command (we don't want to log passwords)
     if (data.toString().trim().match(/PASS /i)) {
       logger.log('info', '<grey>[%s:%d] Command:</grey>  <- PASS ********', remoteAddr, remotePort);
     } else {
       logger.log('info', '<grey>[%s:%d] Command:</grey>  <- %s', remoteAddr, remotePort, data.toString().trim());
     }
 
-    // Emit a low level event
     socket.emit('client:data', data, socket, command, session);
-
-    // Emit a higher level event
     socket.emit('ftp:commandReceived', data.toString(), command, session);
   });
 
@@ -112,23 +96,38 @@ process.on('message', function (m, socket) {
     socket.emit('client:end');
   });
 
-  socket.on('close', function () {
-    logger.log('info', '<grey>[%s:%d]</grey> Connection Closed, Goodbye', remoteAddr, remotePort);
-    socket.emit('client:close');
+  socket.on('close', process.exit);
+};
 
-    // Exit the child process once the socket has been closed
-    process.exit();
+var _loadCommands = function () {
+  fs.readdir(__dirname + '/../commands', function (err, files) {
+    for (var i = 0; i < files.length; i++) {
+      require(__dirname + '/../commands/' + files[i]);
+    }
   });
-});
+};
 
-// Catch unhandled exceptions
-process.removeAllListeners('uncaughtException');
-process.on('uncaughtException', function (err) {
-  var stackTrace = err.stack.split('\n');
+var _loadAuthHandlers = function () {
+  fs.readdir(__dirname + '/../auth', function (err, files) {
+    for (var i = 0; i < files.length; i++) {
+      require(__dirname + '/../auth/' + files[i]);
+    }
+  });
+};
 
-  for (var i = 0; i < stackTrace.length; i++) {
-    logger.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
-  }
+var _catchExceptions = function () {
+  process.removeAllListeners('uncaughtException');
+  process.on('uncaughtException', function (err) {
+    var stackTrace = err.stack.split('\n');
 
-  process.exit(1);
-});
+    for (var i = 0; i < stackTrace.length; i++) {
+      logger.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
+    }
+
+    process.exit(1);
+  });
+};
+
+_loadCommands();
+_loadAuthHandlers();
+_catchExceptions();

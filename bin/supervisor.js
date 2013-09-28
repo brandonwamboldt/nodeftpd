@@ -1,9 +1,8 @@
+'use strict';
+
 // Third party dependencies
-var fork  = require('child_process').fork;
-var net   = require('net');
-var tls   = require('tls');
-var fs    = require('fs');
 var async = require('async');
+var fs    = require('fs');
 var _     = require('lodash');
 
 // Local dependencies
@@ -17,7 +16,7 @@ var pkg        = require('../package.json');
 logger.log('notice', 'NodeFTPD/%s configured -- resuming normal operations', pkg.version);
 
 // Create the basic FTP server
-tasks = [_.partial(nodeftpd.createFtpServer, config.port, config.listen)];
+var tasks = [_.partial(nodeftpd.createFtpServer, config.port, config.listen)];
 
 if (config.tls.enabled) {
   // Read in the key file and certificate needed to establish a TLS connection
