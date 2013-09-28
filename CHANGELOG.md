@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.6.0
+-----
+
+* Reimplemented process management without Forever
+* Improved error handling and logging facilities
+
 0.5.0
 -----
 
