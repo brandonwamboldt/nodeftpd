@@ -3,6 +3,7 @@
 // Local Dependencies
 var facter      = require('../lib/facts');
 var fs          = require('../lib/fs');
+var unix        = require('../lib/unix');
 var command     = require('../lib/command');
 var dataChannel = require('../lib/data-channel');
 
@@ -47,9 +48,11 @@ command.add('MLSD', 'MLSD [<sp> pathname]', function (pathname, commandChannel, 
           }
 
           facts += ';unique=' + facter.unique(stat);
-          facts += ';UNIX.group=' + stat.gid;
-          facts += ';UNIX.mode=' + stat.mode.toString(8).substring(3);
-          facts += ';UNIX.owner=' + stat.uid;
+          facts += ';UNIX.group=' + unix.getGroup({ gid: stat.gid })[0].group;
+          facts += ';UNIX.gid=' + stat.gid;
+          facts += ';UNIX.mode=' + stat.mode.toString(8).slice(-3);
+          facts += ';UNIX.owner=' + unix.getUser({ uid: stat.uid })[0].username;
+          facts += ';UNIX.uid=' + stat.uid;
           facts += '; ' + files[i] + '\r\n';
 
           socket.write(facts);
