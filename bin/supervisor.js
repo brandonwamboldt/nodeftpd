@@ -14,7 +14,7 @@ var nodeftpd   = require('../lib/nodeftpd');
 var pkg        = require('../package.json');
 
 // Starting
-logger.log('notice', 'NodeFTPD/' + pkg.version + ' configured -- resuming normal operations');
+logger.log('notice', 'NodeFTPD/%s configured -- resuming normal operations', pkg.version);
 
 // Create the basic FTP server
 tasks = [_.partial(nodeftpd.createFtpServer, config.port, config.listen)];
