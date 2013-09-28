@@ -29,7 +29,7 @@ if (config.tls.enabled) {
 // Don't disconnect from the main process until all servers are listening. This
 // is so we can print out errors and have the user see if needed.
 async.waterfall(tasks, function () {
-  supervisor.spawnWorkers(5);
+  supervisor.spawnWorkers(config.idle_workers);
   process.send({ 'ready': true });
 });
 

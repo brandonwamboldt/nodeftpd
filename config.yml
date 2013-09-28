@@ -5,6 +5,7 @@ listen: '%default_ip%'
 port: 21
 socket: /var/run/nodeftpd.sock
 pid_file: /var/run/nodeftpd.pid
+idle_workers: 5
 logging:
   error_log: /var/log/nodeftpd/error.log
   access_log: /var/log/nodeftpd/access.log
