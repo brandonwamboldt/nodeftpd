@@ -14,7 +14,7 @@ var eventQueue     = [];
 require('tmp');
 
 // New child process awaiting connections
-logger.log('info', '<cyan>[Process Manager]</cyan> Child process with PID %d listening', process.pid);
+logger.log('notice', 'Worker (pid %d) waiting', process.pid);
 
 // Load command modules right away so there ready when a new connection is
 // established
@@ -55,7 +55,7 @@ process.on('message', function (m, socket) {
   var remoteAddr = socket.remoteAddress;
   var remotePort = socket.remotePort;
 
-  logger.log('info', '<cyan>[Process Manager]</cyan> Child process with PID %d receiving connection', process.pid);
+  logger.log('notice', 'Worker (pid %d) receiving connection', process.pid);
 
   // Save the IP
   session.clientIp = remoteAddr;
@@ -65,10 +65,6 @@ process.on('message', function (m, socket) {
 
   // Expose the socket
   exports.socket = socket;
-
-  process.on('GRACEFULTERM', function () {
-    socket.destroy();
-  });
 
   // Proxy any event listeners onto the socket
   for (var i in eventQueue) {
@@ -123,11 +119,6 @@ process.on('message', function (m, socket) {
     // Exit the child process once the socket has been closed
     process.exit();
   });
-});
-
-// Log when the process exits
-process.on('exit', function () {
-  logger.log('info', '<cyan>[Process Manager]</cyan> Exiting child process with PID %d', process.pid);
 });
 
 // Catch unhandled exceptions
