@@ -11,6 +11,7 @@ Changelog
 * Properly clean up processes, sockets and servers
 * Code cleanup
 * Implemented `ABOR`
+* FIX - `MLSx` functions return the UID, GID, username and group name now
 * FIX - Fix UNIX.mode for `MLSx` functions
 * FIX - Fix perm fact for `MLSx` functions
 
