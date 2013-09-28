@@ -138,7 +138,7 @@ Architecture
 
 This FTP server uses a child process based design, where each connection is handled by it's own process. This is for security reasons, and to make the code easier to organize and maintain.
 
-The parent process listens for new connections and passes them off to a process in the process pool. When this occurs, a new process is spawned to keep *x* processes free in the pool. When a connection is closed, that process is destroyed.
+The parent process listens for new connections and passes them off to a process in the process pool. When this occurs, a new process is spawned to keep *idle_workers* processes free in the pool. When a connection is closed, that process is destroyed.
 
 FTP Implementation Resources
 ----------------------------
