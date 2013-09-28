@@ -36,14 +36,20 @@ async.waterfall(tasks, function () {
 // Catch the SIGINT signal so we can do a graceful shutdown
 process.on('SIGINT', function () {
   if (!supervisor.isDaemon()) {
-    fs.unlinkSync(config.pid_file);
     process.emit('GRACEFULTERM');
+
+    if (fs.existsSync(config.pid_file)) {
+      fs.unlinkSync(config.pid_file);
+    }
   }
 });
 
 process.on('SIGTERM', function () {
-  fs.unlinkSync(config.pid_file);
   process.emit('GRACEFULTERM');
+
+  if (fs.existsSync(config.pid_file)) {
+    fs.unlinkSync(config.pid_file);
+  }
 });
 
 // Catch uncaught exceptions so we can do a graceful shutdown
