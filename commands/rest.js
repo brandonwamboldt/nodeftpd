@@ -33,6 +33,8 @@ var command = require('../lib/command');
  * advantage of REST to save time if a previous transfer was interrupted in the
  * middle. Clients beware: the file may have changed since the time of the
  * previous transfer.
+ *
+ * RFC Reference: rfc3659 - Extensions to FTP
  */
 command.add('REST', 'REST <sp> byte-count', function (byteCount, commandChannel, session) {
   byteCount = parseInt(byteCount, 10);

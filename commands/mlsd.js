@@ -8,7 +8,7 @@ var command     = require('../lib/command');
 var dataChannel = require('../lib/data-channel');
 
 /**
- * MLSD is defined in RFC 3659 - Extensions to FTP
+ * RFC Reference: rfc3659 - Extensions to FTP
  */
 command.add('MLSD', 'MLSD [<sp> pathname]', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);

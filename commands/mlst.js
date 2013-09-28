@@ -7,7 +7,7 @@ var command = require('../lib/command');
 var unix    = require('../lib/unix');
 
 /**
- * MLST is defined in RFC 3659 - Extensions to FTP
+ * RFC Reference: rfc3659 - Extensions to FTP
  */
 command.add('MLST', 'MLST [<sp> pathname]', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);

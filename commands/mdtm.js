@@ -8,10 +8,9 @@ var command = require('../lib/command');
 var fs      = require('../lib/fs');
 
 /**
- * Returns the last modified timestamp of the remote file as a decimal number.
- * @param {!string} pathname
- * @param {!object} commandChannel
- * @param {!object} session
+ * A MDTM request asks for the last modified time of a file or directory.
+ *
+ * RFC Reference: rfc3659 - Extensions to FTP
  */
 command.add('MDTM', 'MDTM <sp> pathname', function (pathname, commandChannel, session) {
   var absolutePath = fs.toAbsolute(pathname, session.cwd);
