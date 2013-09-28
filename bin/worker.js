@@ -13,9 +13,6 @@ var eventQueue     = [];
 // include the module now so our uncaughtException handler happens after
 require('tmp');
 
-// Set the logging level
-logger.setLogLevel(config.logging.level);
-
 // New child process awaiting connections
 logger.log('info', '<cyan>[Process Manager]</cyan> Child process with PID %d listening', process.pid);
 
@@ -43,7 +40,7 @@ exports.on = function () {
   if (exports.socket) {
     exports.socket.on.apply(exports.socket, Array.prototype.slice.call(arguments));
   }
-}
+};
 
 // Listen for the parent process to send the socket when a new connection is
 // created
@@ -135,7 +132,7 @@ process.on('uncaughtException', function (err) {
   var stackTrace = err.stack.split('\n');
 
   for (var i = 0; i < stackTrace.length; i++) {
-    logger.log('info', '<red>[Exception Handler]</red> %s', stackTrace[i]);
+    logger.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
   }
 
   process.exit(1);

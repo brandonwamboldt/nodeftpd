@@ -1,26 +1,19 @@
 // Third party dependencies
-var fork = require('child_process').fork;
-var net  = require('net');
-var tls  = require('tls');
-var fs   = require('fs');
+var fork  = require('child_process').fork;
+var net   = require('net');
+var tls   = require('tls');
+var fs    = require('fs');
+var async = require('async');
+var _     = require('lodash');
 
 // Local dependencies
 var config     = require('../lib/config');
 var logger     = require('../lib/logger');
 var supervisor = require('../lib/supervisor');
+var nodeftpd   = require('../lib/nodeftpd');
 
-// Set the logging level
-logger.setLogLevel(config.logging.level);
-
-// Create a pool of 5 child processes to handle new connections. We always
-// want at least 5 child processes available. Each one takes about 30ms to
-// start up and uses ~10mb of memory. Results may vary.
-supervisor.spawnWorkers(5);
-
-// Create a new TCP Server
-var server = net.createServer(function (socket) {
-  supervisor.useWorker().send('socket', socket);
-});
+// Create the basic FTP server
+tasks = [_.partial(nodeftpd.createFtpServer, config.port, config.listen)];
 
 // Is implicit TLS support enabled?
 if (config.tls.enabled) {
@@ -29,52 +22,35 @@ if (config.tls.enabled) {
     cert: fs.readFileSync(config.tls.cert)
   };
 
-  // Create a TLS TCP server
-  var tlsServer = tls.createServer(options, function (clearTextStream) {
-    var socket = net.connect('/var/run/nodeftpd.sock', function () {
-      clearTextStream.pipe(socket);
-    });
-
-    socket.pipe(clearTextStream);
-    socket.write('SETIP ' + clearTextStream.remoteAddress + ':' + clearTextStream.remotePort);
-  });
-
-  // Start the server and bind to the appropriate port
-  tlsServer.listen(config.tls.port, config.listen, function () {
-    logger.log('info', '<green>[Daemon]</green> Starting NodeFTPD (TLS)');
-    logger.log('info', '<green>[Daemon]</green> Listening on %s:%d (TLS)', config.listen, config.tls.port);
-  });
-
-  // Listen for the server.close event
-  tlsServer.on('close', function () {
-    logger.log('info', '<green>[Daemon]</green> Shutting down NodeFTPD (TLS)');
-  });
+  tasks.push(_.partial(nodeftpd.createLocalSocket, config.socket));
+  tasks.push(_.partial(nodeftpd.createFtpTlsServer, config.socket, config.tls.port, config.listen, options));
 }
 
-// Since we can't pass TLS clear text streams between processes, we use a socket
-// server as an intermediary. This is secure thing both processes are on the
-// same server.
-var masterServer = net.createServer(function (socket) {
-  supervisor.useWorker().send('tls_socket', socket);
+// Don't disconnect from the main process until all servers are listening. This
+// is so we can print out errors and have the user see if needed.
+async.waterfall(tasks, function () {
+  supervisor.spawnWorkers(5);
+  process.send({ 'ready': true });
 });
 
-// Listen on our UNIX socket
-masterServer.listen('/var/run/nodeftpd.sock');
-
-// Clean up our socket server
+// Catch the SIGINT signal so we can do a graceful shutdown
 process.on('SIGINT', function () {
-  masterServer.close(function () {
-    process.exit();
-  });
+  if (!supervisor.isDaemon()) {
+    process.emit('GRACEFULTERM');
+  }
 });
 
-// Start the server and bind to the appropriate port
-server.listen(config.port, config.listen, function () {
-  logger.log('info', '<green>[Daemon]</green> Starting NodeFTPD');
-  logger.log('info', '<green>[Daemon]</green> Listening on %s:%d', config.listen, config.port);
+process.on('SIGTERM', function () {
+  process.emit('GRACEFULTERM');
 });
 
-// Listen for the server.close event
-server.on('close', function () {
-  logger.log('info', '<green>[Daemon]</green> Shutting down NodeFTPD');
+// Catch uncaught exceptions so we can do a graceful shutdown
+process.on('uncaughtException', function (err) {
+  var stackTrace = err.stack.split('\n');
+
+  for (var i = 0; i < stackTrace.length; i++) {
+    logger.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
+  }
+
+  process.emit('GRACEFULTERM');
 });
