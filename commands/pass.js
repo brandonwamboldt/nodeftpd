@@ -38,7 +38,7 @@ command.add('PASS', 'PASS <sp> password', function (password, commandChannel, se
 
       // Set the process UID
       process.setgroups(user.groups);
-      process.setgid(user.gid);
+      process.setgid(user.group);
       process.setuid(user.uid);
 
       // Status message

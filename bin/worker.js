@@ -21,6 +21,9 @@ var eventQueue = [];
 // include the module now so our uncaughtException handler happens after
 require('tmp');
 
+// Load the UNIX library now so it has time to read in files
+require('../lib/unix');
+
 // New child process awaiting connections
 logger.log('notice', 'Worker (pid %d) waiting', process.pid);
 
