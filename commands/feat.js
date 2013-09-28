@@ -13,7 +13,7 @@ command.add('FEAT', 'FEAT (returns feature list)', function (nil, commandChannel
   commandChannel.write('EPRT');
   commandChannel.write('UTF8');
   commandChannel.write('MDTM');
-  //commandChannel.write('MFMT');
+  commandChannel.write('MFMT');
   //commandChannel.write('AUTH TLS');
   //commandChannel.write('MFF modify;UNIX.group;UNIX.mode;');
   commandChannel.write('MLSD');
