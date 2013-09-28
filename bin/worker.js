@@ -66,6 +66,10 @@ process.on('message', function (m, socket) {
   // Expose the socket
   exports.socket = socket;
 
+  process.on('GRACEFULTERM', function () {
+    socket.destroy();
+  });
+
   // Proxy any event listeners onto the socket
   for (var i in eventQueue) {
     socket.on.apply(socket, Array.prototype.slice.call(eventQueue[i]));
