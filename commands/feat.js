@@ -15,7 +15,6 @@ command.add('FEAT', 'FEAT (returns feature list)', function (nil, commandChannel
   commandChannel.write('MDTM');
   commandChannel.write('MFMT');
   //commandChannel.write('AUTH TLS');
-  //commandChannel.write('MFF modify;UNIX.group;UNIX.mode;');
   commandChannel.write('MLSD');
   commandChannel.write('MLST modify*;perm*;size*;type*;unique*;UNIX.group*;UNIX.gid*;UNIX.mode*;UNIX.owner*;UNIX.uid*;');
   commandChannel.write('PASV');
