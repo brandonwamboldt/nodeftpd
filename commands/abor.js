@@ -3,7 +3,6 @@
 // Local dependencies
 var command     = require('../lib/command');
 var dataChannel = require('../lib/data-channel');
-var config      = require('../lib/config');
 
 /**
  * This command tells the server to abort the previous FTP service command and

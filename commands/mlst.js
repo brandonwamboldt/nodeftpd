@@ -4,6 +4,7 @@
 var facter  = require('../lib/facts');
 var fs      = require('../lib/fs');
 var command = require('../lib/command');
+var unix    = require('../lib/unix');
 
 /**
  * MLST is defined in RFC 3659 - Extensions to FTP

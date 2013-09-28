@@ -41,6 +41,10 @@
     "tmp": "0.0.x",
     "js-yaml": "2.1.x"
   },
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib-jshint": "~0.6.x"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=0.8"
