@@ -2,6 +2,7 @@
 # /etc/nodeftpd.yml
 
 listen: '%default_ip%'
+umask: 022
 port: 21
 socket: /var/run/nodeftpd.sock
 pid_file: /var/run/nodeftpd.pid

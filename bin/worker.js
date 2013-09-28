@@ -9,6 +9,9 @@ var commandChannel = require('../lib/command-channel');
 var config         = require('../lib/config');
 var logger         = require('../lib/logger');
 
+// Set the umask
+process.umask(config.umask);
+
 // We need to attach listeners to the socket, but we don't get the socket for a
 // while after the process starts, so we temporarily store listeners here and
 // then transfer them to the socket when we receive it
