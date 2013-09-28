@@ -31,7 +31,7 @@ command.add('MLST', 'MLST [<sp> pathname]', function (pathname, commandChannel, 
 
     facts += ';unique=' + facter.unique(stat);
     facts += ';UNIX.group=' + stat.gid;
-    facts += ';UNIX.mode=' + stat.mode.toString(10).substring(2);
+    facts += ';UNIX.mode=' + stat.mode.toString(8).substring(3);
     facts += ';UNIX.owner=' + stat.uid;
     facts += '; ' + absolutePath;
 
