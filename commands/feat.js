@@ -9,6 +9,7 @@ var command = require('../lib/command');
  */
 command.add('FEAT', 'FEAT (returns feature list)', function (nil, commandChannel) {
   commandChannel.write(211, '-Features');
+  commandChannel.write('UTF8');
   commandChannel.write('MDTM');
   //commandChannel.write('MFMT');
   //commandChannel.write('AUTH TLS');
