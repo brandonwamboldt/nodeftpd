@@ -10,6 +10,7 @@ Changelog
 * JSHint fixes
 * Properly clean up processes, sockets and servers
 * Code cleanup
+* Implemented `ABOR`
 * FIX - Fix UNIX.mode for `MLSx` functions
 * FIX - Fix perm fact for `MLSx` functions
 
