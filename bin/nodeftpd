@@ -10,9 +10,6 @@ var nodeftpd = require('../lib/program')(program);
 var pkg      = require('../package.json');
 
 program.version(pkg.version)
-  .option('-p, --pidfile [file]', 'The pid file')
-  .option('-a, --accessfile [file]', 'Logs NodeFTPD command logs to [file]')
-  .option('-e, --errfile [file]', 'Logs NodeFTPD error logs to [file]')
   .option('-D, --no-daemon', 'Don\'t run NodeFTPD as a daemon');
 
 program.command('help')
