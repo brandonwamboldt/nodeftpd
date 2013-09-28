@@ -6,6 +6,12 @@ Changelog
 
 * Reimplemented process management without Forever
 * Improved error handling and logging facilities
+* Implementing umask
+* JSHint fixes
+* Properly clean up processes, sockets and servers
+* Code cleanup
+* FIX - Fix UNIX.mode for `MLSx` functions
+* FIX - Fix perm fact for `MLSx` functions
 
 0.5.0
 -----
