@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.6.1
+-----
+
+* Fix an error when installed globally
+
 0.6.0
 -----
 
