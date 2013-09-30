@@ -6,23 +6,20 @@ var fs    = require('fs');
 var _     = require('lodash');
 
 // Local dependencies
-var config     = require('../lib/config');
-var logger     = require('../lib/logger');
 var supervisor = require('../lib/supervisor');
 var nodeftpd   = require('../lib/nodeftpd');
-var pkg        = require('../package.json');
 
 // Starting
-logger.log('notice', 'NodeFTPD/%s configured -- resuming normal operations', pkg.version);
+nodeftpd.log('notice', 'NodeFTPD/%s nodeftpd.configured -- resuming normal operations', nodeftpd.version);
 
 // Create the basic FTP server
-var tasks = [_.partial(nodeftpd.createFtpServer, config.port, config.listen)];
+var tasks = [_.partial(nodeftpd.createFtpServer, nodeftpd.config.port, nodeftpd.config.listen)];
 
-if (config.tls.enabled) {
+if (nodeftpd.config.tls.enabled) {
   // Read in the key file and certificate needed to establish a TLS connection
   var options = {
-    key: fs.readFileSync(config.tls.key),
-    cert: fs.readFileSync(config.tls.cert)
+    key: fs.readFileSync(nodeftpd.config.tls.key),
+    cert: fs.readFileSync(nodeftpd.config.tls.cert)
   };
 
   // Create a UNIX socket to act as an intermediary between the supervisor and
@@ -30,7 +27,7 @@ if (config.tls.enabled) {
   // processes.
   tasks.push(_.partial(
     nodeftpd.createLocalSocket,
-    config.socket
+    nodeftpd.config.socket
   ));
 
   // Create a TLS server to handle FTP over implicit TLS connections. Implicit
@@ -38,9 +35,9 @@ if (config.tls.enabled) {
   // the AUTH TLS command.
   tasks.push(_.partial(
     nodeftpd.createFtpTlsServer,
-    config.socket,
-    config.tls.port,
-    config.listen,
+    nodeftpd.config.socket,
+    nodeftpd.config.tls.port,
+    nodeftpd.config.listen,
     options
   ));
 }
@@ -49,7 +46,7 @@ if (config.tls.enabled) {
 // don't spawn workers just to have one of the servers fail and have to kill the
 // workers
 async.waterfall(tasks, function () {
-  supervisor.spawnWorkers(config.idle_workers);
+  supervisor.spawnWorkers(nodeftpd.config.idle_workers);
   process.send({ 'ready': true });
 });
 
@@ -57,16 +54,16 @@ async.waterfall(tasks, function () {
 // running in the foreground, or discard it if we're running in the background.
 process.on('SIGINT', function () {
   if (!supervisor.isDaemon()) {
-    logger.log('notice', 'caught SIGINT, shutting down');
+    nodeftpd.log('notice', 'caught SIGINT, shutting down');
     process.emit('shutdown');
   } else {
-    logger.log('notice', 'caught SIGINT, ignoring');
+    nodeftpd.log('notice', 'caught SIGINT, ignoring');
   }
 });
 
 // Catch the SIGTERM signal so we can clean up before shutting down
 process.on('SIGTERM', function () {
-  logger.log('notice', 'caught SIGTERM, shutting down');
+  nodeftpd.log('notice', 'caught SIGTERM, shutting down');
   process.emit('shutdown');
 });
 
@@ -76,7 +73,7 @@ process.on('uncaughtException', function (err) {
   var stackTrace = err.stack.split('\n');
 
   for (var i = 0; i < stackTrace.length; i++) {
-    logger.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
+    nodeftpd.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
   }
 
   process.emit('shutdown');
@@ -87,7 +84,7 @@ process.on('uncaughtException', function (err) {
 process.on('shutdown', function () {
   supervisor.killAllWorkers();
 
-  if (fs.existsSync(config.pid_file)) {
-    fs.unlinkSync(config.pid_file);
+  if (fs.existsSync(nodeftpd.config.pid_file)) {
+    fs.unlinkSync(nodeftpd.config.pid_file);
   }
 });

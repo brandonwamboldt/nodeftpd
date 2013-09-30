@@ -6,11 +6,10 @@ var fs = require('fs');
 // Local dependencies
 var sessionManager = require('../lib/session-manager');
 var commandChannel = require('../lib/command-channel');
-var config         = require('../lib/config');
-var logger         = require('../lib/logger');
+var nodeftpd       = require('../lib/nodeftpd');
 
 // Set the umask
-process.umask(config.umask);
+process.umask(nodeftpd.config.umask);
 
 // We need to attach listeners to the socket, but we don't get the socket for a
 // while after the process starts, so we temporarily store listeners here and
@@ -25,7 +24,7 @@ require('tmp');
 require('../lib/unix');
 
 // New child process awaiting connections
-logger.log('notice', 'Worker (pid %d) waiting', process.pid);
+nodeftpd.log('notice', 'Worker (pid %d) waiting', process.pid);
 
 // Allow code to hook into the socket.on event before a socket exists using a
 // queue based proxy
@@ -49,7 +48,7 @@ process.on('message', function (m, socket) {
 });
 
 var _setupConnection = function (socketType, socket) {
-  logger.log('notice', 'Worker (pid %d) receiving connection', process.pid);
+  nodeftpd.log('notice', 'Worker (pid %d) receiving connection', process.pid);
 
   var session      = sessionManager.startSession();
   var command      = commandChannel.createChannel(socket);
@@ -67,8 +66,8 @@ var _setupConnection = function (socketType, socket) {
   // Don't do these if we don't have an IP (we'll do it later once we get the
   // user's IP)
   if (session.clientIp) {
-    logger.log('info', '[%s:%d] Client Connected, Hello', remoteAddr, remotePort);
-    command.write(220, config.motd);
+    nodeftpd.log('info', '[%s:%d] Client Connected, Hello', remoteAddr, remotePort);
+    command.write(220, nodeftpd.config.motd);
   }
 
   // Expose socket events to make for nicer code
@@ -81,16 +80,16 @@ var _setupConnection = function (socketType, socket) {
       remotePort       = command.remotePort = ip[2];
 
       // These messares deferred until we get the IP address
-      logger.log('info', '[%s:%d] Client Connected, Hello', remoteAddr, remotePort);
-      command.write(220, config.motd);
+      nodeftpd.log('info', '[%s:%d] Client Connected, Hello', remoteAddr, remotePort);
+      command.write(220, nodeftpd.config.motd);
       return;
     }
 
     // Special handling for PASS command (we don't want to log passwords)
     if (data.toString().trim().match(/PASS /i)) {
-      logger.log('info', '<grey>[%s:%d] Command:</grey>  <- PASS ********', remoteAddr, remotePort);
+      nodeftpd.log('info', '<grey>[%s:%d] Command:</grey>  <- PASS ********', remoteAddr, remotePort);
     } else {
-      logger.log('info', '<grey>[%s:%d] Command:</grey>  <- %s', remoteAddr, remotePort, data.toString().trim());
+      nodeftpd.log('info', '<grey>[%s:%d] Command:</grey>  <- %s', remoteAddr, remotePort, data.toString().trim());
     }
 
     socket.emit('client:data', data, socket, command, session);
@@ -98,7 +97,7 @@ var _setupConnection = function (socketType, socket) {
   });
 
   socket.on('end', function () {
-    logger.log('info', '<grey>[%s:%d]</grey> Client Disconnected', remoteAddr, remotePort);
+    nodeftpd.log('info', '<grey>[%s:%d]</grey> Client Disconnected', remoteAddr, remotePort);
     socket.emit('client:end');
   });
 
@@ -127,7 +126,7 @@ var _catchExceptions = function () {
     var stackTrace = err.stack.split('\n');
 
     for (var i = 0; i < stackTrace.length; i++) {
-      logger.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
+      nodeftpd.log('error', '<red>[Exception Handler]</red> %s', stackTrace[i]);
     }
 
     process.exit(1);
