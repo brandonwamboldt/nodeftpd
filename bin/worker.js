@@ -4,7 +4,7 @@
 var fs = require('fs');
 
 // Local dependencies
-var sessionManager = require('../lib/session-manager');
+var sessions       = require('../lib/sessions');
 var commandChannel = require('../lib/command-channel');
 var nodeftpd       = require('../lib/nodeftpd');
 
@@ -50,7 +50,7 @@ process.on('message', function (m, socket) {
 var _setupConnection = function (socketType, socket) {
   nodeftpd.log('notice', 'Worker (pid %d) receiving connection', process.pid);
 
-  var session      = sessionManager.startSession();
+  var session      = sessions.create();
   var command      = commandChannel.createChannel(socket);
   var remoteAddr   = socket.remoteAddress;
   var remotePort   = socket.remotePort;
