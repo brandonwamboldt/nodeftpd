@@ -4,12 +4,12 @@ Changelog
 0.6.2
 -----
 
-* Fix broken passive/active mode transfers [0800a8f95d]
+* Fix broken passive/active mode transfers [`0800a8f95d`](https://github.com/brandonwamboldt/nodeftpd/commit/0800a8f95d3adb362c06c333fceb6b350b5352b0)
 
 0.6.1
 -----
 
-* Fix an error when installed globally [49816ef682]
+* Fix an error when installed globally [`49816ef682`](https://github.com/brandonwamboldt/nodeftpd/commit/49816ef6823c9a4ca282f0935228fb2e98d614e1)
 
 0.6.0
 -----
