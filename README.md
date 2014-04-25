@@ -138,6 +138,15 @@ Authentication Mechanisms
 
 The system only supports Linux accounts via PAM at the moment. More drivers are coming soon!
 
+Chroot Jails
+------------
+
+NodeFTPd ships with software level chroot capabilities, which are enabled by default. The default setting chroots the user to their home directory. When they connect via FTP, their root directory is mapped to their home directory.
+
+Users in a chroot jail cannot manipulate files outside of their chroot jail.
+
+You can disable chroot jails by setting the chroot jail to `/`.
+
 Architecture
 ------------
 
