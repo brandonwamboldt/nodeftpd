@@ -1,10 +1,15 @@
 Changelog
 =========
 
+0.6.2
+-----
+
+* Fix broken passive/active mode transfers [0800a8f95d]
+
 0.6.1
 -----
 
-* Fix an error when installed globally
+* Fix an error when installed globally [49816ef682]
 
 0.6.0
 -----

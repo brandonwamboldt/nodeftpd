@@ -7,6 +7,11 @@ This is a real FTP server, and I'm aiming to implement all standard FTP function
 
 The project is a Node.js/JavaScript learning project, but I intend on making it into a feature complete FTP server that I can deploy on my own servers.
 
+FTP Protocol Implementation Progress
+-----------------------------------
+
+I've prioritized the most common FTP commands first, so the majority of commands that are actually used by modern FTP clients are implemented. For a detailed list, see the [list of implemented/not implemented commands](/docs/List_of_Commands.md).
+
 Installation
 ------------
 
