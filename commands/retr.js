@@ -96,8 +96,14 @@ command.add('RETR', 'RETR <sp> pathname', function (pathname, commandChannel, se
   fs.stat(absolutePath, function (err, stats) {
     var size = stats.size + ' bytes';
 
+    if (dataChannel.isReady()) {
+      commandChannel.write(150, 'Opening ' + session.transferType + ' mode data connection for ' + pathname + ' (' + size + ')');
+    } else {
+      commandChannel.write(425, 'Unable to build data connection: Invalid argument');
+    }
+
     // Create a data channel to initiate the transfer
-    var success = dataChannel.create(session, function (socket, done) {
+    dataChannel.onReady(function (socket, done) {
       stream.pipe(socket, { end: false });
       stream.on('end', function () {
         commandChannel.write(226, 'Transfer complete');
@@ -105,11 +111,5 @@ command.add('RETR', 'RETR <sp> pathname', function (pathname, commandChannel, se
         done();
       });
     });
-
-    if (!success) {
-      commandChannel.write(425, 'Unable to build data connection: Invalid argument');
-    } else {
-      commandChannel.write(150, 'Opening ' + session.transferType + ' mode data connection for ' + pathname + ' (' + size + ')');
-    }
   });
 });

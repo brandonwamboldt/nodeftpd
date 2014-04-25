@@ -100,7 +100,13 @@ command.add('LIST', 'LIST [<sp> pathname]', function (pathname, commandChannel, 
     if (err) {
       commandChannel.write(550, fs.errorMessage(err, pathname));
     } else {
-      var success = dataChannel.create(session, function (socket, done) {
+      if (dataChannel.isReady()) {
+        commandChannel.write(150, 'Here comes the directory listing.');
+      } else {
+        commandChannel.write(425, 'Unable to build data connection: Invalid argument');
+      }
+
+      dataChannel.onReady(function (socket, done) {
         if (files === null) {
           files = [];
         }
@@ -131,12 +137,6 @@ command.add('LIST', 'LIST [<sp> pathname]', function (pathname, commandChannel, 
 
         done();
       });
-
-      if (!success) {
-        commandChannel.write(425, 'Unable to build data connection: Invalid argument');
-      } else {
-        commandChannel.write(150, 'Here comes the directory listing.');
-      }
     }
   });
 });

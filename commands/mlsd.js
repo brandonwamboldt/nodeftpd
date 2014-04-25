@@ -18,8 +18,14 @@ command.add('MLSD', 'MLSD [<sp> pathname]', function (pathname, commandChannel, 
     if (err) {
       commandChannel.write(550, fs.errorMessage(err, pathname));
     } else {
-      var success = dataChannel.create(session, function (socket, done) {
-        var stat    = null;
+      if (dataChannel.isReady()) {
+        commandChannel.write(150, 'Opening ASCII mode data connection for MLSD');
+      } else {
+        commandChannel.write(425, 'Unable to build data connection: Invalid argument');
+      }
+
+      dataChannel.onReady(function (socket, done) {
+        var stat = null;
 
         for (var i = 0; i < files.length; i++) {
           try {
@@ -62,12 +68,6 @@ command.add('MLSD', 'MLSD [<sp> pathname]', function (pathname, commandChannel, 
 
         done();
       });
-
-      if (success) {
-        commandChannel.write(150, 'Opening ASCII mode data connection for MLSD');
-      } else {
-        commandChannel.write(425, 'Unable to build data connection: Invalid argument');
-      }
     }
   });
 });

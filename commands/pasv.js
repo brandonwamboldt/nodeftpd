@@ -75,6 +75,9 @@ command.add('PASV', 'PASV (returns address/port)', function (nil, commandChannel
     var port2 = message.port % 256;
     var port  = config.listen.replace(/\./g, ',') + ',' + port1 + ',' + port2;
 
-    commandChannel.write(227, ' Entering passive mode (' + port + ')');
+    // Bind to the port we're using for passive mode
+    dataChannel.create(session, function () {
+      commandChannel.write(227, ' Entering passive mode (' + port + ')');
+    });
   });
 });
