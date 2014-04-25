@@ -58,6 +58,12 @@ var _setupConnection = function (socketType, socket) {
   session.isSecure = (socketType === 'tls_socket');
   exports.socket   = socket;
 
+  // Fix the listening address if we're bound to 0.0.0.0 by using the local
+  // address of the socket
+  if (nodeftpd.config.listen == "0.0.0.0") {
+    nodeftpd.config.listen = socket.localAddress;
+  }
+
   // Proxy any event listeners onto the socket
   for (var i = 0; i < eventQueue.length; i++) {
     socket.on.apply(socket, Array.prototype.slice.call(eventQueue[i]));
