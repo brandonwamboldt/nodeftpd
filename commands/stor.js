@@ -47,7 +47,7 @@ command.add('STOR', 'STOR <sp> pathname', function (pathname, commandChannel, se
 
   // Wait for the writable stream to be ready
   stream.on('open', function () {
-    var success = channel.create(session, function (socket, done) {
+    var success = channel.onReady(function (socket, done) {
       socket.pipe(stream);
 
       socket.on('end', function () {
